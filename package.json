@@ -12,8 +12,7 @@
     "@baklavajs/core": "^1.5.4",
     "@baklavajs/plugin-interface-types": "^1.5.2",
     "@baklavajs/plugin-renderer-vue": "^1.5.3",
-    "vue": "^2.6.11",
-    "vue-property-decorator": "^8.4.1"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-typescript": "^4.3.1",

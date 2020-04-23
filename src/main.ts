@@ -1,11 +1,11 @@
-import Vue from "vue";
-import { BaklavaVuePlugin } from "@baklavajs/plugin-renderer-vue";
-import "@baklavajs/plugin-renderer-vue/dist/styles.css";
+import Vue from 'vue';
+import { BaklavaVuePlugin } from '@baklavajs/plugin-renderer-vue';
+import '@baklavajs/plugin-renderer-vue/dist/styles.css';
+
+import App from '@/App.vue';
 
 Vue.use(BaklavaVuePlugin);
 
-import App from "@/App.vue";
-
 new Vue({
-  render: (h: any) => h(App),
-}).$mount("#app");
+  render: (h) => h(App),
+}).$mount('#app');

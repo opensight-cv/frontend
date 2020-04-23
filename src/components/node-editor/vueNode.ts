@@ -13,35 +13,45 @@ function defaultValue(type: Type): any {
     case 'intr':
     case 'floatr':
       return () => [0, 0];
+    default:
+      throw new Error();
   }
 }
 
-function optionName(type: Type): string {
+function optionName(type: Type, values: object = {}): string {
   switch (type.name) {
     case 'string':
       return 'TextOption';
     case 'boolean':
       return 'CheckboxOption';
     case 'int':
+      if ('min' in values && 'max' in values) {
+        return 'SliderOption';
+      }
+      return 'IntegerOption';
+
     case 'float':
       return 'NumberOption';
     case 'intr':
     case 'floatr':
       return 'RangeOption';
+    default:
+      throw new Error();
   }
 }
 
-export function nodeConstructorFromDesc(desc: NodeDescription): {name: string; category: string; type: new() => Node} {
+export default function nodeConstructorFromDesc(desc: NodeDescription):
+    {name: string; category: string; type: new() => Node} {
   const builder = new NodeBuilder(desc.name);
 
   for (const { name, type, showOption } of desc.inputFields) {
-    if(showOption) {
+    if (showOption) {
       builder.addInputInterface(`in-${name}`, optionName(type), defaultValue(type),
-      { type: type.name, displayName: `${name}: ${type.name}` });
+        { type: type.name, displayName: `${name}: ${type.name}` });
     } else {
       builder.addInputInterface(`in-${name}`, undefined, undefined,
-      { type: type.name, displayName: `${name}: ${type.name}` });
-    }  
+        { type: type.name, displayName: `${name}: ${type.name}` });
+    }
   }
 
   for (const { name, type } of desc.outputFields) {

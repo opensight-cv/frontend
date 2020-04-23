@@ -4,19 +4,18 @@
   </div>
 </template>
 
-<script>
-//import { Editor } from "@baklavajs/core";
-//import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
-import NodeEditor from "./views/Editor.vue";
+<script lang="ts">
+import NodeEditor from '@/views/Editor.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
+  components: { NodeEditor },
   data() {
     return {
-      test: "Test"
+      test: 'Test',
     };
   },
-  components: { NodeEditor }
-};
+});
 </script>
 
 <style scoped>

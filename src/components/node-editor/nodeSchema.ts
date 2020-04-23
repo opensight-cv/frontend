@@ -12,10 +12,11 @@ export interface Field {
 }
 
 export interface InputField extends Field {
-    showOption: boolean | undefined;
+    showOption?: boolean;
 }
 
-export type Type = IntegralType | FloatType | BooleanType | StringType | IntegralRangeType | FloatRangeType;
+export type Type =
+    IntegralType | FloatType | BooleanType | StringType | IntegralRangeType | FloatRangeType;
 
 export interface IntegralType {
     name: 'int';

@@ -1,44 +1,48 @@
 <template>
-  <baklava-editor :plugin="viewPlugin"></baklava-editor>
+  <baklava-editor :plugin="viewPlugin" />
 </template>
 
-<script>
-import { Editor } from "@baklavajs/core";
-import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
-import { nodeConstructorFromDesc } from "../components/node-editor/vueNode";
+<script lang="ts">
+import { Editor } from '@baklavajs/core';
+import { ViewPlugin } from '@baklavajs/plugin-renderer-vue';
+import nodeConstructorFromDesc from '@/components/node-editor/vueNode';
 
-import NumberOption from '@/components/node-editor/options/NumberOption.vue';
-import CheckboxOption from '@/components/node-editor/options/CheckboxOption.vue';
-import TextOption from '@/components/node-editor/options/TextOption.vue';
-import RangeOption from '@/components/node-editor/options/RangeOption.vue';
+import Vue from 'vue';
+import { InterfaceTypePlugin } from '@baklavajs/plugin-interface-types';
+import { OptionPlugin } from '@baklavajs/plugin-options-vue';
 
-export default {
+import funcs from '@/funcs.json';
+import funcToNode from '@/funcToNode';
+
+export default Vue.extend({
   data() {
     return {
       editor: new Editor(),
-      viewPlugin: new ViewPlugin()
+      viewPlugin: new ViewPlugin(),
     };
   },
   created() {
     this.editor.use(this.viewPlugin);
+    this.editor.use(new InterfaceTypePlugin());
+    this.editor.use(new OptionPlugin());
 
-    this.viewPlugin.registerOption('NumberOption', NumberOption);
-    this.viewPlugin.registerOption('CheckboxOption', CheckboxOption);
-    this.viewPlugin.registerOption('TextOption', TextOption);
-    this.viewPlugin.registerOption('RangeOption', RangeOption);
-
-    const { name, category, type } = nodeConstructorFromDesc(
-      JSON.parse(
-        '{"category":"default","name":"Add","settingFields":[{"name":"AAA","type":{"name": "boolean","values":{}}}, {"name":"BBB","type":{"name": "intr","values":{}}}, {"name":"CCC","type":{"name": "string","values":{}}}, {"name":"asad","type":{"name": "int","values":{}}}],"inputFields":[{"name":"a","showOption":true,"type":{"name":"int","values":{}}}],"outputFields":[{"name":"a","type":{"name":"int","values":{}}}]}'
-      )
-    );
-    this.editor.registerNodeType(name, type, category);
-  }
-};
+    funcs.funcs.forEach((oldFunc) => {
+      const newElement: any = funcToNode(oldFunc);
+      const { name, category, type } = nodeConstructorFromDesc(newElement);
+      this.editor.registerNodeType(name, type, category);
+    });
+    this.editor.events.addNode.addListener({}, () => {
+      console.log(JSON.stringify(this.editor.save()));
+    });
+    this.editor.events.removeNode.addListener({}, () => {
+      console.log(JSON.stringify(this.editor.save()));
+    });
+  },
+});
 </script>
 
 <style scoped>
-.node-editor {
-  background-repeat: repeat;
-}
+/*.node-editor {*/
+/*  background-repeat: repeat;*/
+/*}*/
 </style>

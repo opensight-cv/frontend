@@ -1,26 +1,28 @@
 <template>
-    <baklava-editor :plugin="viewPlugin"></baklava-editor>
+    <div class="mainApp">
+        <NodeEditor />
+    </div>
 </template>
 
 <script>
-import { Editor } from "@baklavajs/core";
-import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
+//import { Editor } from "@baklavajs/core";
+//import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
+import NodeEditor from "./views/Editor.vue"
 
 export default {
     data() {
         return {
-            editor: new Editor(),
-            viewPlugin: new ViewPlugin()
+            test:"Test"
         }
     },
-    created() {
-        this.editor.use(this.viewPlugin);
-    }
+    components: {NodeEditor},
 }
 </script>
 
 <style scoped>
-.node-editor {
-  background-repeat: repeat;
+.mainApp {
+    height: 100%;
 }
+
+
 </style>

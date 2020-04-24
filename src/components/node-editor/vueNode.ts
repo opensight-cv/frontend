@@ -1,73 +1,69 @@
-import { NodeBuilder, Node } from '@baklavajs/core';
-import { Type, NodeDescription } from './nodeSchema';
+import { NodeBuilder, Node } from "@baklavajs/core";
+import { Function } from "@/components/node-editor/funcSchema";
 
-function defaultValue(type: Type): any {
-  switch (type.name) {
-    case 'string':
-      return '';
-    case 'boolean':
+function defaultValue(type: string): unknown {
+  switch (type) {
+    case "string":
+      return "";
+    case "boolean":
       return false;
-    case 'int':
-    case 'float':
+    case "int":
+    case "float":
       return 0;
-    case 'intr':
-    case 'floatr':
+    case "intr":
+    case "floatr":
       return () => [0, 0];
     default:
-      throw new Error();
+      console.warn(`Type ${type} not registered for a default value`);
+      return "";
   }
 }
 
-function optionName(type: Type, values: object = {}): string {
-  switch (type.name) {
-    case 'string':
-      return 'TextOption';
-    case 'boolean':
-      return 'CheckboxOption';
-    case 'int':
-      if ('min' in values && 'max' in values) {
-        return 'SliderOption';
-      }
-      return 'IntegerOption';
-
-    case 'float':
-      return 'NumberOption';
-    case 'intr':
-    case 'floatr':
-      return 'RangeOption';
+function optionName(type: string): string {
+  switch (type) {
+    case "string":
+      return "TextOption";
+    case "boolean":
+      return "CheckboxOption";
+    case "int":
+      return "IntegerOption";
+    case "float":
+      return "NumberOption";
+    case "intr":
+    case "floatr":
+      return "RangeOption";
     default:
-      throw new Error();
+      console.warn(`Type ${type} not registered for an option`);
+      return "";
   }
 }
 
-export default function nodeConstructorFromDesc(desc: NodeDescription):
-    {name: string; category: string; type: new() => Node} {
+export default function nodeCtorFromFunction(
+  desc: Function
+): { name: string; type: new () => Node } {
   const builder = new NodeBuilder(desc.name);
 
-  for (const { name, type, showOption } of desc.inputFields) {
-    if (showOption) {
-      builder.addInputInterface(`in-${name}`, optionName(type), defaultValue(type),
-        { type: type.name, displayName: `${name}: ${type.name}` });
-    } else {
-      builder.addInputInterface(`in-${name}`, undefined, undefined,
-        { type: type.name, displayName: `${name}: ${type.name}` });
-    }
-  }
+  Object.entries(desc.settings).forEach(([name, setting]) => {
+    builder.addOption(name, optionName(setting.type), defaultValue(setting.type), undefined, {
+      type: setting.type,
+      ...setting.params,
+    });
+  });
 
-  for (const { name, type } of desc.outputFields) {
-    builder.addOutputInterface(`out-${name}`, { type: type.name, displayName: `${name}: ${type.name}` });
-  }
+  Object.entries(desc.inputs).forEach(([name, input]) => {
+    builder.addInputInterface(`in-${name}`, optionName(input.type), defaultValue(input.type), {
+      type: input.type,
+      displayName: `${name}: ${input.type}`,
+      ...input.params,
+    });
+  });
 
-  for (const { name, type } of desc.settingFields) {
-    if (type.name === 'int' || type.name === 'float') {
-      builder.addOption(name, optionName(type), defaultValue(type), undefined,
-        {
-          type: type.name, min: type.values.min, max: type.values.max, numberType: type.name,
-        });
-    } else {
-      builder.addOption(name, optionName(type), defaultValue(type), undefined, { type: type.name });
-    }
-  }
+  Object.entries(desc.outputs).forEach(([name, output]) => {
+    builder.addOutputInterface(`out-${name}`, {
+      type: output.type,
+      displayName: `${name}: ${output.type}`,
+    });
+  });
 
-  return { name: desc.name, category: desc.category, type: builder.build() };
+  return { name: desc.name, type: builder.build() };
 }

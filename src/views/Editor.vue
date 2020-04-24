@@ -3,34 +3,37 @@
 </template>
 
 <script lang="ts">
-import { Editor } from '@baklavajs/core';
-import { ViewPlugin } from '@baklavajs/plugin-renderer-vue';
-import nodeConstructorFromDesc from '@/components/node-editor/vueNode';
+import { Editor } from "@baklavajs/core";
+import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 
-import Vue from 'vue';
-import { InterfaceTypePlugin } from '@baklavajs/plugin-interface-types';
-import { OptionPlugin } from '@baklavajs/plugin-options-vue';
+import Vue from "vue";
+import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
+import { OptionPlugin } from "@baklavajs/plugin-options-vue";
 
-import funcs from '@/funcs.json';
-import funcToNode from '@/funcToNode';
+import nodeCtorFromFunction from "@/components/node-editor/vueNode";
+import { getSchema } from "@/components/api";
 
 export default Vue.extend({
   data() {
     return {
       editor: new Editor(),
       viewPlugin: new ViewPlugin(),
+      interfacePlugin: new InterfaceTypePlugin(),
     };
   },
-  created() {
+  async created() {
     this.editor.use(this.viewPlugin);
-    this.editor.use(new InterfaceTypePlugin());
+    this.editor.use(this.interfacePlugin);
     this.editor.use(new OptionPlugin());
 
-    funcs.funcs.forEach((oldFunc) => {
-      const newElement: any = funcToNode(oldFunc);
-      const { name, category, type } = nodeConstructorFromDesc(newElement);
-      this.editor.registerNodeType(name, type, category);
+    const schema = await getSchema();
+    schema.modules.forEach((module) => {
+      module.funcs.forEach((func) => {
+        const { name, type } = nodeCtorFromFunction(func);
+        this.editor.registerNodeType(name, type, module.package);
+      });
     });
+
     this.editor.events.addNode.addListener({}, () => {
       console.log(JSON.stringify(this.editor.save()));
     });
@@ -40,9 +43,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style scoped>
-/*.node-editor {*/
-/*  background-repeat: repeat;*/
-/*}*/
-</style>

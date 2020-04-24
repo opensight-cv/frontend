@@ -4,13 +4,17 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/recommended',
-    '@vue/airbnb',
-    '@vue/typescript/recommended',
+    "plugin:vue/recommended",
+    "@vue/airbnb",
+    "@vue/typescript/recommended",
+
+    "@vue/prettier",
+    "@vue/prettier/@typescript-eslint",
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-restricted-syntax': 'off',
+    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    // Broken with typescript (still)
+    "@typescript-eslint/no-unused-vars": "off",
   },
 };

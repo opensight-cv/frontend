@@ -11,7 +11,7 @@ import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import { OptionPlugin } from "@baklavajs/plugin-options-vue";
 
 import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
-import { getSchema } from "@/components/api";
+import { getSchema, postSchema } from "@/components/api";
 import { Input, Link, Nodetree } from "@/components/node-editor/nodeSchema";
 
 function saveNodeOptions(map: Map<string, NodeOption>): Record<string, unknown> {
@@ -31,7 +31,8 @@ function linkFromNodeInterface(intf: NodeInterface): Link {
   // is the name (machine, not human-readable) of the interface
   for (const [k, v] of intf.parent.interfaces) {
     if (v === intf) {
-      return { id: intf.parent.id, name: k };
+      // delete the 'out-' part of the name
+      return { id: intf.parent.id, name: k.substr(4) };
     }
   }
   throw new Error(`NodeInterface ${intf} has inconsistent parent`);
@@ -48,9 +49,11 @@ function saveNodeInterfaces(
     if (name !== "__proto__") {
       const otherConnection = connections.get(nodeInterface);
       if (otherConnection !== undefined) {
-        obj[name] = { link: linkFromNodeInterface(otherConnection.from) };
+        // delete the 'in-' part of the name
+        obj[name.substr(3)] = { link: linkFromNodeInterface(otherConnection.from) };
       } else {
-        obj[name] = { value: nodeInterface.value };
+        // delete the 'in-' part of the name
+        obj[name.substr(3)] = { value: nodeInterface.value };
       }
     }
   });
@@ -87,6 +90,7 @@ export default Vue.extend({
     this.editor.use(new OptionPlugin());
 
     const schema = await getSchema();
+    console.log(schema);
     schema.modules.forEach((module) => {
       module.funcs.forEach((func) => {
         const { name, type } = nodeCtorFromFunction(func);
@@ -94,18 +98,18 @@ export default Vue.extend({
       });
     });
 
-    this.editor.events.addNode.addListener({}, () => {
-      console.log(JSON.stringify(saveNodetree(this.editor)));
+    this.editor.events.addNode.addListener({}, async (node) => {
+      node.events.update.addListener(this, async () => {
+        console.log(saveNodetree(this.editor));
+        await postSchema(saveNodetree(this.editor));
+      });
+      console.log(saveNodetree(this.editor));
+      await postSchema(saveNodetree(this.editor));
     });
-    this.editor.events.removeNode.addListener({}, () => {
-      console.log(JSON.stringify(saveNodetree(this.editor)));
-    });
-
-    this.editor.events.addConnection.addListener({}, () => {
-      console.log(JSON.stringify(saveNodetree(this.editor)));
-    });
-    this.editor.events.removeConnection.addListener({}, () => {
-      console.log(JSON.stringify(saveNodetree(this.editor)));
+    this.editor.events.removeNode.addListener({}, async (node) => {
+      node.events.update.removeListener(this);
+      console.log(saveNodetree(this.editor));
+      await postSchema(saveNodetree(this.editor));
     });
   },
 });

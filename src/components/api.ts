@@ -1,5 +1,6 @@
 import ky from "ky";
 import { Schema } from "@/components/node-editor/funcSchema";
+import { Nodetree } from "@/components/node-editor/nodeSchema";
 
 const api = ky.create({
   prefixUrl:
@@ -10,6 +11,6 @@ export async function getSchema(): Promise<Schema> {
   return api.get("funcs").json();
 }
 
-export function postSchema() {
-  return api.get("");
+export function postSchema(nodetree: Nodetree) {
+  return api.post("nodes", { json: nodetree });
 }

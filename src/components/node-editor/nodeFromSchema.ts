@@ -1,39 +1,41 @@
 import { NodeBuilder, Node } from "@baklavajs/core";
-import { Function } from "@/components/node-editor/funcSchema";
+import { Function, InputOutput } from "@/components/node-editor/funcSchema";
 
-function defaultValue(type: string): unknown {
-  switch (type) {
-    case "string":
+function defaultValue(io: InputOutput): unknown {
+  if ("default" in io.params) {
+    return io.params.default;
+  }
+  switch (io.type) {
+    case "str":
       return "";
-    case "boolean":
+    case "bool":
       return false;
     case "int":
     case "float":
-      return 0;
-    case "intr":
-    case "floatr":
-      return () => [0, 0];
+    case "Slide":
+      return io.params.min ?? 0;
+    case "Enum":
+      return (io.params.options as unknown[])[0];
     default:
-      console.warn(`Type ${type} not registered for a default value`);
       return undefined;
   }
 }
 
-function optionName(type: string): string | undefined {
-  switch (type) {
-    case "string":
-      return "TextOption";
-    case "boolean":
+function optionName(io: InputOutput): string | undefined {
+  switch (io.type) {
+    case "str":
+      return "InputOption";
+    case "bool":
       return "CheckboxOption";
     case "int":
       return "IntegerOption";
     case "float":
       return "NumberOption";
-    case "intr":
-    case "floatr":
-      return "RangeOption";
+    case "Slide":
+      return "SliderOption";
+    case "Enum":
+      return "SelectOption";
     default:
-      console.warn(`Type ${type} not registered for an option`);
       return undefined;
   }
 }
@@ -41,17 +43,18 @@ function optionName(type: string): string | undefined {
 export default function nodeCtorFromFunction(
   desc: Function
 ): { name: string; type: new () => Node } {
-  const builder = new NodeBuilder(desc.name);
+  const builder = new NodeBuilder(desc.type);
+  builder.setName(desc.name);
 
   for (const [name, setting] of Object.entries(desc.settings)) {
-    builder.addOption(name, optionName(setting.type)!!, defaultValue(setting.type), undefined, {
+    builder.addOption(name, optionName(setting)!!, defaultValue(setting), undefined, {
       type: setting.type,
       ...setting.params,
     });
   }
 
   for (const [name, input] of Object.entries(desc.inputs)) {
-    builder.addInputInterface(`in-${name}`, optionName(input.type), defaultValue(input.type), {
+    builder.addInputInterface(`in-${name}`, optionName(input), defaultValue(input), {
       type: input.type,
       displayName: `${name}: ${input.type}`,
       ...input.params,

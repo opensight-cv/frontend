@@ -15,11 +15,11 @@ function defaultValue(type: string): unknown {
       return () => [0, 0];
     default:
       console.warn(`Type ${type} not registered for a default value`);
-      return "";
+      return undefined;
   }
 }
 
-function optionName(type: string): string {
+function optionName(type: string): string | undefined {
   switch (type) {
     case "string":
       return "TextOption";
@@ -34,7 +34,7 @@ function optionName(type: string): string {
       return "RangeOption";
     default:
       console.warn(`Type ${type} not registered for an option`);
-      return "";
+      return undefined;
   }
 }
 
@@ -43,27 +43,27 @@ export default function nodeCtorFromFunction(
 ): { name: string; type: new () => Node } {
   const builder = new NodeBuilder(desc.name);
 
-  Object.entries(desc.settings).forEach(([name, setting]) => {
-    builder.addOption(name, optionName(setting.type), defaultValue(setting.type), undefined, {
+  for (const [name, setting] of Object.entries(desc.settings)) {
+    builder.addOption(name, optionName(setting.type)!!, defaultValue(setting.type), undefined, {
       type: setting.type,
       ...setting.params,
     });
-  });
+  }
 
-  Object.entries(desc.inputs).forEach(([name, input]) => {
+  for (const [name, input] of Object.entries(desc.inputs)) {
     builder.addInputInterface(`in-${name}`, optionName(input.type), defaultValue(input.type), {
       type: input.type,
       displayName: `${name}: ${input.type}`,
       ...input.params,
     });
-  });
+  }
 
-  Object.entries(desc.outputs).forEach(([name, output]) => {
+  for (const [name, output] of Object.entries(desc.outputs)) {
     builder.addOutputInterface(`out-${name}`, {
       type: output.type,
       displayName: `${name}: ${output.type}`,
     });
-  });
+  }
 
   return { name: desc.name, type: builder.build() };
 }

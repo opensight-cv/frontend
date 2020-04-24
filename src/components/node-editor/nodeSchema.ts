@@ -15,6 +15,6 @@ export interface Node {
   inputs: Record<string, Input>;
 }
 
-export interface NodeTree {
+export interface Nodetree {
   nodes: Node[];
 }

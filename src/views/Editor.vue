@@ -3,15 +3,75 @@
 </template>
 
 <script lang="ts">
-import { Editor } from "@baklavajs/core";
+import { Editor, NodeInterface, NodeOption, Connection } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 
 import Vue from "vue";
 import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import { OptionPlugin } from "@baklavajs/plugin-options-vue";
 
-import nodeCtorFromFunction from "@/components/node-editor/vueNode";
+import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
 import { getSchema } from "@/components/api";
+import { Input, Link, Nodetree } from "@/components/node-editor/nodeSchema";
+
+function saveNodeOptions(map: Map<string, NodeOption>): Record<string, unknown> {
+  // This gets the value as `unknown` out of each NodeOption and maps it to a new object.
+  const obj: Record<string, unknown> = {};
+  for (const [k, v] of map) {
+    if (k !== "__proto__") {
+      // This line maps the NodeOption to the value that the NodeOption holds
+      obj[k] = v.value;
+    }
+  }
+  return obj;
+}
+
+function linkFromNodeInterface(intf: NodeInterface): Link {
+  // NodeInterface is stored as a Record<string, NodeInterface> in INode, where string
+  // is the name (machine, not human-readable) of the interface
+  for (const [k, v] of intf.parent.interfaces) {
+    if (v === intf) {
+      return { id: intf.parent.id, name: k };
+    }
+  }
+  throw new Error(`NodeInterface ${intf} has inconsistent parent`);
+}
+
+// Connections is a map of the target of a connection to the Connection. This map
+// assumes that only one connection can be made to any `Input` NodeInterface.
+function saveNodeInterfaces(
+  map: Record<string, NodeInterface>,
+  connections: Map<NodeInterface, Connection>
+): Record<string, Input> {
+  const obj: Record<string, Input> = {};
+  Object.entries(map).forEach(([name, nodeInterface]) => {
+    if (name !== "__proto__") {
+      const otherConnection = connections.get(nodeInterface);
+      if (otherConnection !== undefined) {
+        obj[name] = { link: linkFromNodeInterface(otherConnection.from) };
+      } else {
+        obj[name] = { value: nodeInterface.value };
+      }
+    }
+  });
+  return obj;
+}
+
+function saveNodetree(editor: Editor): Nodetree {
+  return {
+    nodes: editor.nodes.map((n) => {
+      return {
+        id: n.id,
+        type: n.type,
+        settings: saveNodeOptions(n.options),
+        inputs: saveNodeInterfaces(
+          n.inputInterfaces,
+          new Map(editor.connections.map((a) => [a.to, a]))
+        ),
+      };
+    }),
+  };
+}
 
 export default Vue.extend({
   data() {
@@ -35,10 +95,17 @@ export default Vue.extend({
     });
 
     this.editor.events.addNode.addListener({}, () => {
-      console.log(JSON.stringify(this.editor.save()));
+      console.log(JSON.stringify(saveNodetree(this.editor)));
     });
     this.editor.events.removeNode.addListener({}, () => {
-      console.log(JSON.stringify(this.editor.save()));
+      console.log(JSON.stringify(saveNodetree(this.editor)));
+    });
+
+    this.editor.events.addConnection.addListener({}, () => {
+      console.log(JSON.stringify(saveNodetree(this.editor)));
+    });
+    this.editor.events.removeConnection.addListener({}, () => {
+      console.log(JSON.stringify(saveNodetree(this.editor)));
     });
   },
 });

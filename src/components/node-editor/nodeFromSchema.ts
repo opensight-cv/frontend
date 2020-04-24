@@ -15,7 +15,7 @@ function defaultValue(io: InputOutput): unknown {
     case "Slide":
       return io.params.min ?? 0;
     case "Enum":
-      return (io.params.options as unknown[])[0];
+      return (io.params.items as unknown[])[0];
     default:
       return undefined;
   }

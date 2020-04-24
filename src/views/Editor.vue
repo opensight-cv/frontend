@@ -100,15 +100,23 @@ export default Vue.extend({
 
     this.editor.events.addNode.addListener({}, async (node) => {
       node.events.update.addListener(this, async () => {
-        console.log(saveNodetree(this.editor));
+        console.log(`1${JSON.stringify(saveNodetree(this.editor))}`);
         await postSchema(saveNodetree(this.editor));
       });
-      console.log(saveNodetree(this.editor));
+      console.log(`2${JSON.stringify(saveNodetree(this.editor))}`);
       await postSchema(saveNodetree(this.editor));
     });
     this.editor.events.removeNode.addListener({}, async (node) => {
       node.events.update.removeListener(this);
-      console.log(saveNodetree(this.editor));
+      console.log(`3${JSON.stringify(saveNodetree(this.editor))}`);
+      await postSchema(saveNodetree(this.editor));
+    });
+    this.editor.events.addConnection.addListener({}, async () => {
+      console.log(`4${JSON.stringify(saveNodetree(this.editor))}`);
+      await postSchema(saveNodetree(this.editor));
+    });
+    this.editor.events.removeConnection.addListener({}, async () => {
+      console.log(`5${JSON.stringify(saveNodetree(this.editor))}`);
       await postSchema(saveNodetree(this.editor));
     });
   },

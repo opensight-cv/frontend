@@ -3,6 +3,7 @@ module.exports = {
   env: {
     node: true,
   },
+  plugins: ["prettier"],
   extends: [
     "plugin:vue/recommended",
     "@vue/airbnb",
@@ -10,6 +11,7 @@ module.exports = {
 
     "@vue/prettier",
     "@vue/prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
   ],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",

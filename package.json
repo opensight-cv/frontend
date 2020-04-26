@@ -5,7 +5,7 @@
   "repository": "github:opensight-cv/frontend",
   "scripts": {
     "build": "vue-cli-service build",
-    "lint": "prettier --write *; npx sort-package-json; vue-cli-service lint --fix",
+    "lint": "prettier --write . ; vue-cli-service lint --fix",
     "profile": "vue-cli-service build --report",
     "serve": "vue-cli-service serve",
     "test": "vue-cli-service test:unit",
@@ -35,6 +35,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^2.0.5",
+    "prettier-plugin-packagejson": "^2.2.2",
     "typescript": "^3.8.3",
     "vue-template-compiler": "^2.6.11"
   },

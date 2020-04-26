@@ -12,7 +12,7 @@ import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
 import { getSchema, postSchema } from "@/components/api";
 import { Input, Link, Nodetree } from "@/components/node-editor/nodeSchema";
-import OpsiOptionPlugin from "@/components/OpsiOptionPlugin"
+import OptionPlugin from "@/components/OptionPlugin"
 
 function saveNodeOptions(map: Map<string, NodeOption>): Record<string, unknown> {
   // This gets the value as `unknown` out of each NodeOption and maps it to a new object.
@@ -87,7 +87,7 @@ export default Vue.extend({
   async created() {
     this.editor.use(this.viewPlugin);
     this.editor.use(this.interfacePlugin);
-    this.editor.use(new OpsiOptionPlugin());
+    this.editor.use(new OptionPlugin());
 
     const schema = await getSchema();
     console.log(schema);

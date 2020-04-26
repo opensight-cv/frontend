@@ -7,14 +7,14 @@ import { OptionPlugin } from "@baklavajs/plugin-options-vue";
 import { IViewPlugin } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 import { IEditor } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-core/types";
 
-import * as Options from "./OpsiOptions";
+import * as Options from "./Options";
 
 /**
  * Copypasta from the original OptionPlugin class
  * Modified to use our custom options list (OpsiOptions)
  */
 
-export default class OpsiOptionPlugin extends OptionPlugin {
+export default class extends OptionPlugin {
     public register(editor: IEditor) {
         editor.events.usePlugin.addListener(this, (p) => {
             if (p.type === "ViewPlugin") {

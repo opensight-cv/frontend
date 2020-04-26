@@ -4,6 +4,7 @@
   "private": true,
   "repository": "github:opensight-cv/frontend",
   "scripts": {
+    "watch": "vue-cli-service build --watch --mode development",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",

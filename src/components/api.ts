@@ -3,7 +3,7 @@ import { Schema } from "@/components/node-editor/funcSchema";
 import { Nodetree } from "@/components/node-editor/nodeSchema";
 
 const api = ky.create({
-  prefixUrl: "/api/"
+  prefixUrl: "/api/",
 });
 
 export async function getSchema(): Promise<Schema> {

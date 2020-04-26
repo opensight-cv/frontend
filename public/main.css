@@ -1,7 +1,8 @@
-html, body {
-    margin: 0;
+html,
+body {
+  margin: 0;
 }
 
 #main {
-    height: 100vh;
+  height: 100vh;
 }

@@ -68,5 +68,5 @@ export default function nodeCtorFromFunction(
     });
   }
 
-  return { name: desc.name, type: builder.build() };
+  return { name: desc.type, type: builder.build() };
 }

@@ -3,15 +3,13 @@ module.exports = {
   env: {
     node: true,
   },
-  plugins: ["prettier"],
   extends: [
     "plugin:vue/recommended",
     "@vue/airbnb",
     "@vue/typescript/recommended",
 
-    "@vue/prettier",
+    "@vue/prettier/recommended",
     "@vue/prettier/@typescript-eslint",
-    "plugin:prettier/recommended",
   ],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
@@ -23,6 +21,6 @@ module.exports = {
       },
     ],
     // Broken with typescript (still)
-    "@typescript-eslint/no-unused-vars": "off",
+    "no-unused-vars": "off",
   },
 };

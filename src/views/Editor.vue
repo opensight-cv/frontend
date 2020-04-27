@@ -12,7 +12,7 @@ import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
 import { getSchema, postSchema } from "@/components/api";
 import { Input, Link, Nodetree } from "@/components/node-editor/nodeSchema";
-import OptionPlugin from "@/components/baklava-options-plugin/OptionPlugin";
+import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
 
 function saveNodeOptions(map: Map<string, NodeOption>): Record<string, unknown> {
   // This gets the value as `unknown` out of each NodeOption and maps it to a new object.

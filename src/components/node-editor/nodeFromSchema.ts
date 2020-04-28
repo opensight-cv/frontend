@@ -1,5 +1,5 @@
 import { NodeBuilder, Node } from "@baklavajs/core";
-import { Function, InputOutput } from "@/components/node-editor/funcSchema";
+import { Function, InputOutput } from "@/api/funcSchema";
 
 function defaultValue(io: InputOutput): unknown {
   if ("default" in io.params) {
@@ -12,7 +12,6 @@ function defaultValue(io: InputOutput): unknown {
       return false;
     case "int":
     case "float":
-    case "Slide":
       return io.params.min ?? 0;
     case "Enum":
       return (io.params.items as unknown[])[0];
@@ -31,8 +30,6 @@ function optionName(io: InputOutput): string | undefined {
       return "IntegerOption";
     case "float":
       return "NumberOption";
-    case "Slide":
-      return "SliderOption";
     case "Enum":
       return "SelectOption";
     default:
@@ -47,7 +44,12 @@ export default function nodeCtorFromFunction(
   builder.setName(desc.name);
 
   for (const [name, setting] of Object.entries(desc.settings)) {
-    builder.addOption(name, optionName(setting)!!, defaultValue(setting), undefined, {
+    const optName = optionName(setting);
+    if (!optName) {
+      console.warn(`Option type ${setting.type} is not registered`);
+      continue;
+    }
+    builder.addOption(name, optName, defaultValue(setting), undefined, {
       type: setting.type,
       ...setting.params,
     });

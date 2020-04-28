@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable import/no-unresolved, import/extensions */
 /*
  Eslint has problems with importing ts modules for some reason &
  the setting that's supposed to fix it doesn't work:
@@ -20,23 +20,23 @@ import * as Options from "./options";
  */
 
 export default class extends OptionPlugin {
-    public register(editor: IEditor) {
-        editor.events.usePlugin.addListener(this, (p) => {
-            if (p.type === "ViewPlugin") {
-                this.opsiRegisterOptions(p as IViewPlugin); // modified
-            }
-        });
-        editor.plugins.forEach((p) => {
-            if (p.type === "ViewPlugin") {
-                this.opsiRegisterOptions(p as IViewPlugin); // modified
-            }
-        });
-    }
+  public register(editor: IEditor) {
+    editor.events.usePlugin.addListener(this, (p) => {
+      if (p.type === "ViewPlugin") {
+        this.opsiRegisterOptions(p as IViewPlugin); // modified
+      }
+    });
+    editor.plugins.forEach((p) => {
+      if (p.type === "ViewPlugin") {
+        this.opsiRegisterOptions(p as IViewPlugin); // modified
+      }
+    });
+  }
 
-    private opsiRegisterOptions(viewPlugin: IViewPlugin) {
-        Object.entries(Options).forEach(([k, v]) => {
-            viewPlugin.registerOption(k, v);
-        });
-        return this;
-    }
+  private opsiRegisterOptions(viewPlugin: IViewPlugin) {
+    Object.entries(Options).forEach(([k, v]) => {
+      viewPlugin.registerOption(k, v);
+    });
+    return this;
+  }
 }

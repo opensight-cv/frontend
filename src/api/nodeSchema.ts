@@ -4,8 +4,8 @@ export interface Link {
 }
 
 export interface Input {
-  link?: Link;
-  value?: unknown;
+  link: Link | null;
+  value: unknown; // includes null by default
 }
 
 export interface Node {
@@ -13,8 +13,21 @@ export interface Node {
   id: string;
   settings: Record<string, unknown>;
   inputs: Record<string, Input>;
+  extras: {
+    position?: {
+      x: number;
+      y: number;
+    };
+  };
 }
 
 export interface Nodetree {
   nodes: Node[];
+  extras: {
+    panning?: {
+      x: number;
+      y: number;
+    };
+    scaling?: number;
+  };
 }

@@ -20,7 +20,10 @@ module.exports = {
         selector: "ForOfStatement",
       },
     ],
+    // Why the heck is this not default airbnb
+    "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
     // Broken with typescript (still)
     "no-unused-vars": "off",
+    "no-continue": "off",
   },
 };

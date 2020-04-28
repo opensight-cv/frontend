@@ -3,8 +3,7 @@ import { Schema } from "@/api/funcSchema";
 import { Nodetree } from "@/api/nodeSchema";
 
 const api = ky.create({
-  prefixUrl:
-    process.env.NODE_ENV === "production" ? "http://opensight.local/api/" : "http://localhost/api/",
+  prefixUrl: "/api/",
 });
 
 export async function getSchema(): Promise<Schema> {

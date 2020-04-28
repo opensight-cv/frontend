@@ -26,9 +26,9 @@
       ></component>
     </div>
 
-    <div class="__content">
+    <div class="__content" @mousedown.self.stop="startDrag">
       <!-- Outputs -->
-      <div class="__outputs">
+      <div class="__outputs" >
         <component
           :is="plugin.components.nodeInterface"
           v-for="(output, name) in data.outputInterfaces"
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Options -->
-      <div class="__options">
+      <div class="__options" @mousedown.self.stop="startDrag">
         <template v-for="[name, option] in options">
           <component
             :is="plugin.components.nodeOption"
@@ -73,7 +73,7 @@
       </div>
 
       <!-- Inputs -->
-      <div class="__inputs">
+      <div class="__inputs" >
         <component
           :is="plugin.components.nodeInterface"
           v-for="(input, name) in data.inputInterfaces"

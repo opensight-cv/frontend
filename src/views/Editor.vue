@@ -6,6 +6,8 @@
 import { Editor, NodeInterface, NodeOption, Connection } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 
+import NodeOpsi from "@/components/node-editor/NodeOpsi.vue";
+
 import Vue from "vue";
 import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 

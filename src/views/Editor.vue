@@ -87,6 +87,7 @@ export default Vue.extend({
     };
   },
   async created() {
+    this.viewPlugin.components.node = NodeOpsi;
     this.editor.use(this.viewPlugin);
     this.editor.use(this.interfacePlugin);
     this.editor.use(new OptionPlugin());

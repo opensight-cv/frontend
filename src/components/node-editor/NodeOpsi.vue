@@ -111,7 +111,6 @@ export default class NodeViewOpsi extends Components.Node {
     x: 0,
     y: 0,
     items: [
-      { value: "rename", label: "Rename" },
       { value: "delete", label: "Delete" },
     ],
   };
@@ -200,8 +199,6 @@ export default class NodeViewOpsi extends Components.Node {
         this.renaming = true;
         break;
       default:
-        this.tempName = this.data.name;
-        this.renaming = true;
         break;
     }
   }

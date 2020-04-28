@@ -28,7 +28,7 @@
 
     <div class="__content" @mousedown.self.stop="startDrag">
       <!-- Outputs -->
-      <div class="__outputs" >
+      <div class="__outputs">
         <component
           :is="plugin.components.nodeInterface"
           v-for="(output, name) in data.outputInterfaces"
@@ -73,7 +73,7 @@
       </div>
 
       <!-- Inputs -->
-      <div class="__inputs" >
+      <div class="__inputs">
         <component
           :is="plugin.components.nodeInterface"
           v-for="(input, name) in data.inputInterfaces"
@@ -110,9 +110,7 @@ export default class NodeViewOpsi extends Components.Node {
     show: false,
     x: 0,
     y: 0,
-    items: [
-      { value: "delete", label: "Delete" },
-    ],
+    items: [{ value: "delete", label: "Delete" }],
   };
 
   get classes() {

@@ -16,7 +16,9 @@
     "@baklavajs/plugin-interface-types": "^1.5.2",
     "@baklavajs/plugin-options-vue": "^1.5.2",
     "@baklavajs/plugin-renderer-vue": "^1.5.5",
+    "@types/lodash": "^4.14.150",
     "ky": "^0.19.1",
+    "lodash": "^4.17.15",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
     "vue-property-decorator": "^8.4.2"

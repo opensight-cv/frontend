@@ -90,6 +90,8 @@
 import { Component, Vue, Prop, Inject, Watch } from "vue-property-decorator";
 import { VueConstructor } from "vue";
 
+import _ from "lodash";
+
 import { ViewPlugin, Components } from "@baklavajs/plugin-renderer-vue";
 
 @Component({})
@@ -110,7 +112,10 @@ export default class NodeViewOpsi extends Components.Node {
     show: false,
     x: 0,
     y: 0,
-    items: [{ value: "delete", label: "Delete" }],
+    items: [
+      { value: "delete", label: "Delete" },
+      { value: "duplicate", label: "Duplicate" },
+    ],
   };
 
   get classes() {
@@ -192,10 +197,12 @@ export default class NodeViewOpsi extends Components.Node {
       case "delete":
         this.plugin.editor.removeNode(this.data);
         break;
-      case "rename":
-        this.tempName = this.data.name;
-        this.renaming = true;
+      case "duplicate": {
+        const newData = _.cloneDeep(this.data);
+        newData.id = this.plugin.editor.generateId("Test_");
+        this.plugin.editor.addNode(newData);
         break;
+      }
       default:
         break;
     }

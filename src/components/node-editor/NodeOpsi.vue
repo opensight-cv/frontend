@@ -90,7 +90,7 @@
 import { Component, Vue, Prop, Inject, Watch } from "vue-property-decorator";
 import { VueConstructor } from "vue";
 
-import _ from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 
 import { ViewPlugin, Components } from "@baklavajs/plugin-renderer-vue";
 
@@ -198,7 +198,7 @@ export default class NodeViewOpsi extends Components.Node {
         this.plugin.editor.removeNode(this.data);
         break;
       case "duplicate": {
-        const newData = _.cloneDeep(this.data);
+        const newData = cloneDeep(this.data);
         newData.id = this.plugin.editor.generateId("Test_");
         this.plugin.editor.addNode(newData);
         break;

@@ -20,6 +20,5 @@ export {
   SelectOption,
   SliderOption,
   TextOption,
-  
   DragNumberOption,
 };

@@ -2,11 +2,12 @@
   "name": "opensight-frontend",
   "version": "1.0.2",
   "private": true,
+  "repository": "github:opensight-cv/frontend",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
+    "build": "vue-cli-service build",
     "lint": "prettier --write . \"!{src,dist}/{**,*}\" ; vue-cli-service lint --fix",
-    "profile": "vue-cli-service build --modern --report",
+    "profile": "vue-cli-service build --report",
+    "serve": "vue-cli-service serve",
     "test": "vue-cli-service test:unit",
     "watch": "vue-cli-service build --watch --mode development"
   },
@@ -40,6 +41,5 @@
     "typescript": "^3.8.3",
     "vue-template-compiler": "^2.6.11"
   },
-  "licence": "MIT",
-  "repository": "github:opensight-cv/frontend"
+  "licence": "MIT"
 }

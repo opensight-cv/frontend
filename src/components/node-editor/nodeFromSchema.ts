@@ -28,9 +28,9 @@ function optionName(io: InputOutput): string | undefined {
     case "bool":
       return "CheckboxOption";
     case "int":
-      return "IntegerOption";
+      return "DragNumberOption";
     case "float":
-      return "NumberOption";
+      return "DragNumberOption";
     case "Slide":
       return "SliderOption";
     case "Enum":

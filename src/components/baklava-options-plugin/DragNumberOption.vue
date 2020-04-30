@@ -1,13 +1,11 @@
-// Just a test, not used anywhere right now
-
 <template>
-  <div class="dark-num-input">
+  <div class="dark-num-input" @mousedown="startDrag()">
     <div class="__button --dec" @click="decrement">
       <i-arrow></i-arrow>
     </div>
-    <div v-if="!editMode" class="__content" @click="enterEditMode">
+    <div v-if="!editMode" class="__content">
       <div class="__label .text-truncate">{{ name }}</div>
-      <div class="__value">{{ stringRepresentation }}</div>
+      <div class="__value">{{ stringRep }}</div>
     </div>
     <div v-else class="__content">
       <input
@@ -19,7 +17,6 @@
         style="text-align: right;"
         @blur="leaveEditMode"
         @keydown.enter="leaveEditMode"
-        @mousedown="clicking = true"
       />
     </div>
     <div class="__button --inc" @click="increment">
@@ -29,33 +26,40 @@
 </template>
 
 <script lang="ts">
-import { Watch } from "vue-property-decorator";
 import { NumberOption } from "@baklavajs/plugin-options-vue";
-// import Arrow from "@baklavajs/plugin-options-vue/dist/baklavajs-plugin-options-vue/src/Arrow.vue.d"
 
-// @Component({
-//   components: {
-//     "i-arrow": Arrow,
-//   },
-// })
-
-export default class DragNumberOption extends NumberOption {
-  clicking = false;
-
-  // @Model('change', { type: Number }) readonly clicking!: boolean
-
-  @Watch("clicking")
-  sayHi(val: string, oldVal: string) {
-    console.log(val, oldVal);
-    return this;
+// Set the speed to an integer for integer input and to a real number for real input
+export default class DragIntegerOption extends NumberOption {
+  handleMouseMove(e: MouseEvent) {
+    const speed = this.option.speed || 1;
+    this.setValue(this.v + e.movementX * speed);
   }
 
-  increment() {
-    this.setValue(this.v + 0.1);
+  get stringRep() {
+    const speed = this.option.speed || 1;
+
+    const s = speed % 1 === 0 ? this.v.toFixed(0) : this.v.toFixed(3);
+
+    return s.length > this.MAX_STRING_LENGTH ? this.v.toExponential(this.MAX_STRING_LENGTH - 5) : s;
   }
 
-  decrement() {
-    this.setValue(this.v - 0.1);
+  startDrag() {
+    const moveListener = this.handleMouseMove.bind(this);
+    const originalVal = this.v;
+
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", moveListener);
+      document.removeEventListener("mouseup", handleMouseUp);
+
+      const newVal = this.v;
+
+      // if no change from the mouse events, it was probably a click, so enter edit mode
+      if (originalVal === newVal) this.enterEditMode();
+      this.tempValue = this.v.toFixed(0);
+    };
+
+    document.addEventListener("mousemove", moveListener);
+    document.addEventListener("mouseup", handleMouseUp);
   }
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div class="dark-num-input" @mousedown="startDrag()">
-    <div class="__button --dec" @click="decrement">
+  <div class="dark-num-input">
+    <div class="__button --dec" @click="decrementVal()">
       <i-arrow></i-arrow>
     </div>
-    <div v-if="!editMode" class="__content">
+    <div v-if="!editMode" class="__content" @mousedown="startDrag()">
       <div class="__label .text-truncate">{{ name }}</div>
       <div class="__value">{{ stringRep }}</div>
     </div>
@@ -14,12 +14,12 @@
         type="number"
         class="dark-input"
         :class="{ '--invalid': invalid }"
-        style="text-align: right;"
+        style="text-align: right; -moz-appearance: textfield;"
         @blur="leaveEditMode"
         @keydown.enter="leaveEditMode"
       />
     </div>
-    <div class="__button --inc" @click="increment">
+    <div class="__button --inc" @click="incrementVal()">
       <i-arrow></i-arrow>
     </div>
   </div>
@@ -28,17 +28,29 @@
 <script lang="ts">
 import { NumberOption } from "@baklavajs/plugin-options-vue";
 
-// Set the speed to an integer for integer input and to a real number for real input
+/**
+ * Parameters:
+ * step - how 'fast' the value is decreased/increased when sliding or using the arrow keys
+ *      defaults to 1
+ * float - if it is float input or not
+ *      defaults to false
+ * floatPrecision - precision to which the number should be shown
+ *      defaults to 3
+ *      ignored if float is false
+ */
 export default class DragIntegerOption extends NumberOption {
   handleMouseMove(e: MouseEvent) {
-    const speed = this.option.speed || 1;
-    this.setValue(this.v + e.movementX * speed);
+    const step = this.option.step || 1;
+    this.setValue(this.v + e.movementX * step);
   }
 
   get stringRep() {
-    const speed = this.option.speed || 1;
+    const isFloat = this.option.float; // default to false (if undef)
 
-    const s = speed % 1 === 0 ? this.v.toFixed(0) : this.v.toFixed(3);
+    // default to .001 precision
+    const floatPrecision = this.option.floatPrecision || 3;
+
+    const s = isFloat ? this.v.toFixed(floatPrecision) : this.v.toFixed(0);
 
     return s.length > this.MAX_STRING_LENGTH ? this.v.toExponential(this.MAX_STRING_LENGTH - 5) : s;
   }
@@ -60,6 +72,16 @@ export default class DragIntegerOption extends NumberOption {
 
     document.addEventListener("mousemove", moveListener);
     document.addEventListener("mouseup", handleMouseUp);
+  }
+
+  incrementVal() {
+    const step = this.option.step || 1;
+    this.setValue(this.v + step);
+  }
+
+  decrementVal() {
+    const step = this.option.step || 1;
+    this.setValue(this.v - step);
   }
 }
 </script>

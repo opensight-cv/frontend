@@ -29,30 +29,12 @@
 import { NumberOption } from "@baklavajs/plugin-options-vue";
 
 /**
- * Parameters:
- * step - how 'fast' the value is decreased/increased when sliding or using the arrow keys
- *      defaults to 1
- * float - if it is float input or not
- *      defaults to false
- * floatPrecision - precision to which the number should be shown
- *      defaults to 3
- *      ignored if float is false
+ * Superclass for DragIntegerOption and DragFloatOption
  */
 export default class DragIntegerOption extends NumberOption {
   handleMouseMove(e: MouseEvent) {
     const step = this.option.step || 1;
     this.setValue(this.v + e.movementX * step);
-  }
-
-  get stringRep() {
-    const isFloat = this.option.float; // default to false (if undef)
-
-    // default to .001 precision
-    const floatPrecision = this.option.floatPrecision || 3;
-
-    const s = isFloat ? this.v.toFixed(floatPrecision) : this.v.toFixed(0);
-
-    return s.length > this.MAX_STRING_LENGTH ? this.v.toExponential(this.MAX_STRING_LENGTH - 5) : s;
   }
 
   startDrag() {

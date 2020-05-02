@@ -9,7 +9,8 @@ import {
   TextOption,
 } from "@baklavajs/plugin-options-vue";
 
-import DragNumberOption from "./DragNumberOption.vue";
+import DragIntegerOption from "./DragIntegerOption.vue";
+import DragFloatOption from "./DragFloatOption.vue";
 
 export {
   ButtonOption,
@@ -20,5 +21,6 @@ export {
   SelectOption,
   SliderOption,
   TextOption,
-  DragNumberOption,
+  DragIntegerOption,
+  DragFloatOption,
 };

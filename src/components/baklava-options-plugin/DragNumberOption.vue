@@ -26,30 +26,44 @@
 </template>
 
 <script lang="ts">
+import { Watch, Component } from "vue-property-decorator";
 import { NumberOption } from "@baklavajs/plugin-options-vue";
+import DragIntegerOption from "./DragIntegerOption.vue";
 
 /**
  * Superclass for DragIntegerOption and DragFloatOption
  */
-export default class DragIntegerOption extends NumberOption {
+@Component
+export default class DragNumberOption extends NumberOption {
+  displayValue = 0;
+
+  @Watch("editMode")
+  updateVals() {
+    this.displayValue = this.v;
+  }
+
   handleMouseMove(e: MouseEvent) {
     const step = this.option.step || 1;
-    this.setValue(this.v + e.movementX * step);
+    this.displayValue += e.movementX * step;
+  }
+
+  created() {
+    if (this.option.defaultValue) this.displayValue = this.option.defaultValue;
   }
 
   startDrag() {
     const moveListener = this.handleMouseMove.bind(this);
-    const originalVal = this.v;
+    const originalVal = this.displayValue;
 
     const handleMouseUp = () => {
       document.removeEventListener("mousemove", moveListener);
       document.removeEventListener("mouseup", handleMouseUp);
 
-      const newVal = this.v;
+      this.setVal(this.displayValue);
 
       // if no change from the mouse events, it was probably a click, so enter edit mode
-      if (originalVal === newVal) this.enterEditMode();
-      this.tempValue = this.v.toFixed(0);
+      if (originalVal === this.displayValue) this.enterEditMode();
+      if (this instanceof DragIntegerOption) this.tempValue = this.displayValue.toFixed(0);
     };
 
     document.addEventListener("mousemove", moveListener);
@@ -58,12 +72,17 @@ export default class DragIntegerOption extends NumberOption {
 
   incrementVal() {
     const step = this.option.step || 1;
-    this.setValue(this.v + step);
+    this.setVal(this.v + step);
   }
 
   decrementVal() {
     const step = this.option.step || 1;
-    this.setValue(this.v - step);
+    this.setVal(this.v - step);
+  }
+
+  setVal(value: number) {
+    this.setValue(value);
+    this.displayValue = value;
   }
 }
 </script>

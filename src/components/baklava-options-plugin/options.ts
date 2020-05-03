@@ -10,6 +10,7 @@ import {
 } from "@baklavajs/plugin-options-vue";
 
 import DragNumberOption from "./DragNumberOption.vue";
+import ColorPickerOption from "./ColorPickerOption.vue";
 
 export {
   ButtonOption,
@@ -21,4 +22,5 @@ export {
   SliderOption,
   TextOption,
   DragNumberOption,
+  ColorPickerOption
 };

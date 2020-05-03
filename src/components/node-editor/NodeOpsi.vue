@@ -51,6 +51,7 @@
           :key="input.id"
           :name="name"
           :data="input"
+          @drag-down="startDrag"
         ></component>
       </div>
 
@@ -62,6 +63,7 @@
           :key="output.id"
           :name="name"
           :data="output"
+          @drag-down="startDrag"
         ></component>
       </div>
 

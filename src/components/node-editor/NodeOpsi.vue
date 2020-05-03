@@ -2,18 +2,36 @@
   <div :id="data.id" :class="classes" :style="styles">
     <div
       class="__title"
+      :style="{
+        display: 'grid',
+        gridTemplateColumns: 'auto min-content',
+        paddingRight: '5.2px',
+      }"
       @mousedown.self.stop="startDrag"
       @contextmenu.self.prevent="openContextMenu"
-      v-bind:style="{display: 'grid',
-              gridTemplateColumns: 'auto min-content',
-              paddingRight: '5.2px'}"
     >
-      <span style="width:80%;">{{ data.name }}</span>
+      <span style="width: 80%;">{{ data.name }}</span>
 
-      <div @click="deleteNode" >
-        <svg width="13.9" height="13.9" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
+      <div @click="deleteNode">
+        <svg
+          width="13.9"
+          height="13.9"
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="times"
+          class="svg-inline--fa fa-times fa-w-11"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 352 512"
+        >
+          <path
+            fill="currentColor"
+            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+          ></path>
+        </svg>
       </div>
-      
+
       <component
         :is="plugin.components.contextMenu"
         v-model="contextMenu.show"
@@ -25,7 +43,6 @@
     </div>
 
     <div class="__content" @mousedown.self.stop="startDrag">
-
       <!-- Inputs -->
       <div class="__inputs">
         <component
@@ -86,8 +103,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Inject, Watch } from "vue-property-decorator";
-import { VueConstructor } from "vue";
+import { Component, Prop, Inject } from "vue-property-decorator";
 
 import { ViewPlugin, Components } from "@baklavajs/plugin-renderer-vue";
 
@@ -216,4 +232,3 @@ export default class NodeViewOpsi extends Components.Node {
   }
 }
 </script>
-

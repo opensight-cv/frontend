@@ -11,7 +11,7 @@ import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
 
 import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
-import { getNodetree, getSchema, postNodetree } from "@/api/api";
+import { getNodetree, getSchema, postNodetree, throttle } from "@/api/api";
 import { loadNodeTree, saveNodetree } from "@/components/node-editor/nodeTreeSerialize";
 
 export default Vue.extend({
@@ -37,6 +37,8 @@ export default Vue.extend({
 
     const schema = await getSchema();
 
+    const throttledSave = throttle(this.save, 500);
+
     schema.modules.forEach((module) => {
       module.funcs.forEach((func) => {
         const { name, type } = nodeCtorFromFunction(func);
@@ -49,33 +51,33 @@ export default Vue.extend({
 
     this.editor.nodes.forEach((node) => {
       node.events.update.addListener(this, async () => {
-        await this.save();
+        await throttledSave();
       });
     });
     this.editor.events.addNode.addListener({}, async (node) => {
       node.events.update.addListener(this, async () => {
-        await this.save();
+        await throttledSave();
       });
-      await this.save();
+      await throttledSave();
     });
     this.editor.events.removeNode.addListener({}, async (node) => {
       node.events.update.removeListener(this);
-      await this.save();
+      await throttledSave();
     });
     this.editor.events.addConnection.addListener({}, async () => {
-      await this.save();
+      await throttledSave();
     });
     this.editor.events.removeConnection.addListener({}, async () => {
-      await this.save();
+      await throttledSave();
     });
   },
   methods: {
     async save() {
-      const data = saveNodetree(this.editor, this.viewPlugin);
-      console.log(data.nodes[data.nodes.length - 1].extras.position?.x);
-      console.log(JSON.stringify(data));
+      console.log(saveNodetree(this.editor, this.viewPlugin));
+      console.log(JSON.stringify(saveNodetree(this.editor, this.viewPlugin)));
 
-      await postNodetree(data);
+      console.log(await postNodetree(saveNodetree(this.editor, this.viewPlugin)));
+      console.log(await getNodetree());
     },
   },
 });

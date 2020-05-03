@@ -117,7 +117,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
     for (const [name, value] of Object.entries(n.inputs)) {
       if (value.value) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        node.interfaces.get(`in-${name}`)!.value = value;
+        node.interfaces.get(`in-${name}`)!.value = value.value;
       } else if (value.link) {
         const arr = linkMap.get(node) ?? [];
         arr.push({

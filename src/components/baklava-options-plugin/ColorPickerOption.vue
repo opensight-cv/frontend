@@ -3,7 +3,7 @@
     <div class="__label .text-truncate color-picker-label">{{ name }}</div>
     <div
       class="color-picker-box"
-      :style="background"
+      :style="{ backgroundColor: value }"
       tabindex="-1"
       @click="startEdit"
       @focusout="endEdit"
@@ -11,8 +11,8 @@
       <chrome-picker
         v-show="isOpen"
         class="color-picker"
-        :value="displayValue"
-        @input="setColor($event.hex)"
+        :value="value"
+        @input="value = $event.hex"
       />
     </div>
   </div>
@@ -29,39 +29,30 @@ export default class ColorPickerOption extends Vue {
   @Prop({ type: String })
   name!: string;
 
-  @Prop()
-  // eslint-disable-next-line
-  value!: any; // it has to be any; the baklava source does this
-
-  @Prop({ type: String, default: "#000000" })
-  displayValue!: string;
+  @Prop({ type: String})
+  value!: string; 
 
   isOpen = false;
 
-  background = {
-    backgroundColor: this.displayValue,
-  };
-
   created() {
-    this.setColor(this.value.value);
+    console.log(this.value);
+    // eslint-disable-next-line
+    // @ts-ignore 
+    this.value = this.value.value;
   }
 
   startEdit() {
     this.isOpen = true;
   }
 
-  setColor(color: string) {
-    this.background.backgroundColor = this.displayValue = color;
-  }
-
   endEdit() {
     this.isOpen = false;
-    this.$emit("input", this.displayValue);
+    this.$emit("input", this.value);
   }
 }
 </script>
 
-<style>
+<style scoped>
 .color-picker-container {
   display: flex;
   align-items: center;

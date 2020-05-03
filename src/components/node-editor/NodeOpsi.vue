@@ -25,6 +25,18 @@
     </div>
 
     <div class="__content" @mousedown.self.stop="startDrag">
+
+      <!-- Inputs -->
+      <div class="__inputs">
+        <component
+          :is="plugin.components.nodeInterface"
+          v-for="(input, name) in data.inputInterfaces"
+          :key="input.id"
+          :name="name"
+          :data="input"
+        ></component>
+      </div>
+
       <!-- Outputs -->
       <div class="__outputs">
         <component
@@ -68,17 +80,6 @@
             ></component>
           </portal>
         </template>
-      </div>
-
-      <!-- Inputs -->
-      <div class="__inputs">
-        <component
-          :is="plugin.components.nodeInterface"
-          v-for="(input, name) in data.inputInterfaces"
-          :key="input.id"
-          :name="name"
-          :data="input"
-        ></component>
       </div>
     </div>
   </div>

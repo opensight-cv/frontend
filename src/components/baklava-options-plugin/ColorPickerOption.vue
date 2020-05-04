@@ -33,14 +33,7 @@ export default class ColorPickerOption extends Vue {
   value!: string; 
 
   isOpen = false;
-
-  created() {
-    console.log(this.value);
-    // eslint-disable-next-line
-    // @ts-ignore 
-    this.value = this.value.value;
-  }
-
+  
   startEdit() {
     this.isOpen = true;
   }

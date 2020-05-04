@@ -11,6 +11,9 @@
     "test": "vue-cli-service test:unit",
     "watch": "vue-cli-service build --watch --mode development"
   },
+  "browserslist": [
+    "since 2019"
+  ],
   "dependencies": {
     "@baklavajs/core": "^1.5.4",
     "@baklavajs/plugin-interface-types": "^1.5.2",

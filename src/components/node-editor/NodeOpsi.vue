@@ -90,9 +90,10 @@
 import { Component, Vue, Prop, Inject, Watch } from "vue-property-decorator";
 import { VueConstructor } from "vue";
 
-import cloneDeep from "lodash/cloneDeep";
+import { ViewPlugin, Components, Editor } from "@baklavajs/plugin-renderer-vue";
 
-import { ViewPlugin, Components } from "@baklavajs/plugin-renderer-vue";
+// eslint-disable-next-line import/no-unresolved, import/extensions
+import { IViewNode } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 
 @Component({})
 export default class NodeViewOpsi extends Components.Node {
@@ -198,13 +199,46 @@ export default class NodeViewOpsi extends Components.Node {
         this.plugin.editor.removeNode(this.data);
         break;
       case "duplicate": {
-        const newData = cloneDeep(this.data);
-        newData.id = this.plugin.editor.generateId("Test_");
-        this.plugin.editor.addNode(newData);
+        this.duplicateNode();
+
+        /* const newData = this.data;
+        newData.id = this.plugin.editor.generateId("Node_");
+        this.plugin.editor.addNode(newData); */
         break;
       }
       default:
         break;
+    }
+  }
+
+  duplicateNode() {
+
+    // Get the save of the current node's inlcluding name, type and options
+    const nodeSave = this.data.save();
+
+    // Create a new node based on the node type of the existing node and check if it exists
+    const NodeType = this.plugin.editor.nodeTypes.get(nodeSave.type);
+    if (!NodeType) {
+      console.warn(`Node type ${nodeSave.type} is not registered`);
+      return;
+    }
+
+    // Add that node to the editor
+    const node = new NodeType() as IViewNode;
+    this.plugin.editor.addNode(node);
+
+    // Set the node options based on the original node
+    for (const option of Object.entries(nodeSave.options)) {
+
+      const [ name , value ] = option[1];
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      node.options.get(name)!.value = value;
+    } 
+
+    node.position = {
+      x: this.data.position.x + this.data.width,
+      y: this.data.position.y
     }
   }
 

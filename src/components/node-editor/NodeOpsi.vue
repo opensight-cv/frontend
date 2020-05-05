@@ -212,7 +212,6 @@ export default class NodeViewOpsi extends Components.Node {
   }
 
   duplicateNode() {
-
     // Get the save of the current node's inlcluding name, type and options
     const nodeSave = this.data.save();
 
@@ -229,17 +228,16 @@ export default class NodeViewOpsi extends Components.Node {
 
     // Set the node options based on the original node
     for (const option of Object.entries(nodeSave.options)) {
-
-      const [ name , value ] = option[1];
+      const [name, value] = option[1];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       node.options.get(name)!.value = value;
-    } 
+    }
 
     node.position = {
       x: this.data.position.x + this.data.width,
-      y: this.data.position.y
-    }
+      y: this.data.position.y,
+    };
   }
 
   doneRenaming() {

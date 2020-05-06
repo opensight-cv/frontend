@@ -22,5 +22,5 @@ export {
   SliderOption,
   TextOption,
   DragNumberOption,
-  ColorPickerOption
+  ColorPickerOption,
 };

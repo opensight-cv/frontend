@@ -99,6 +99,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
   for (const n of nodetree.nodes) {
     const NodeType = editor.nodeTypes.get(n.type);
     if (!NodeType) {
+      // eslint-disable-next-line no-console
       console.warn(`Node type ${n.type} is not registered`);
       continue;
     }

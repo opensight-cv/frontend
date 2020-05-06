@@ -29,7 +29,7 @@ export default class ColorPickerOption extends Vue {
   @Prop({ type: String })
   name!: string;
 
-  @Prop({ type: String})
+  @Prop({ type: String })
   value!: string;
 
   isOpen = false;

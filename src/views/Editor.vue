@@ -46,37 +46,36 @@ export default Vue.extend({
       });
     });
 
-    console.log(await getNodetree());
-    loadNodeTree(this.editor, this.viewPlugin, await getNodetree());
+    const nodetree = await getNodetree();
+    // eslint-disable-next-line no-console
+    console.log(nodetree);
+    loadNodeTree(this.editor, this.viewPlugin, nodetree);
 
     this.editor.nodes.forEach((node) => {
-      node.events.update.addListener(this, async () => {
-        await throttledSave();
-      });
+      node.events.update.addListener(this, throttledSave);
     });
     this.editor.events.addNode.addListener({}, async (node) => {
-      node.events.update.addListener(this, async () => {
-        await throttledSave();
-      });
+      node.events.update.addListener(this, throttledSave);
       await throttledSave();
     });
     this.editor.events.removeNode.addListener({}, async (node) => {
       node.events.update.removeListener(this);
       await throttledSave();
     });
-    this.editor.events.addConnection.addListener({}, async () => {
-      await throttledSave();
-    });
-    this.editor.events.removeConnection.addListener({}, async () => {
-      await throttledSave();
-    });
+    this.editor.events.addConnection.addListener({}, throttledSave);
+    this.editor.events.removeConnection.addListener({}, throttledSave);
   },
   methods: {
     async save() {
-      console.log(saveNodetree(this.editor, this.viewPlugin));
-      console.log(JSON.stringify(saveNodetree(this.editor, this.viewPlugin)));
+      const updatedNodetree = saveNodetree(this.editor, this.viewPlugin);
+      // eslint-disable-next-line no-console
+      console.log(updatedNodetree);
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(updatedNodetree));
 
-      console.log(await postNodetree(saveNodetree(this.editor, this.viewPlugin)));
+      // eslint-disable-next-line no-console
+      console.log(await postNodetree(updatedNodetree));
+      // eslint-disable-next-line no-console
       console.log(await getNodetree());
     },
   },

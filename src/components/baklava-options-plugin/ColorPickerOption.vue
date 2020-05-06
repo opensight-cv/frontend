@@ -20,10 +20,9 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { Chrome } from "vue-color";
 
 @Component({
-  components: { "chrome-picker": Chrome },
+  components: { "chrome-picker": () => import("./chrome") },
 })
 export default class ColorPickerOption extends Vue {
   @Prop({ type: String })

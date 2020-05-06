@@ -5,14 +5,14 @@
       class="color-picker-box"
       :style="{ backgroundColor: value }"
       tabindex="-1"
-      @click="startEdit"
-      @focusout="endEdit"
+      @click="isOpen = true"
+      @focusout="isOpen = false"
     >
       <chrome-picker
         v-show="isOpen"
         class="color-picker"
         :value="value"
-        @input="value = $event.hex"
+        @input="$emit('input', $event.hex)"
       />
     </div>
   </div>
@@ -30,18 +30,9 @@ export default class ColorPickerOption extends Vue {
   name!: string;
 
   @Prop({ type: String})
-  value!: string; 
+  value!: string;
 
   isOpen = false;
-  
-  startEdit() {
-    this.isOpen = true;
-  }
-
-  endEdit() {
-    this.isOpen = false;
-    this.$emit("input", this.value);
-  }
 }
 </script>
 

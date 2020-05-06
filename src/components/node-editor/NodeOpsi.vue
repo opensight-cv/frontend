@@ -12,7 +12,8 @@
     >
       <span style="width: 80%;">{{ data.name }}</span>
 
-      <div @click="deleteNode">
+      <div @click="deleteNode"
+        style="cursor: pointer;">
         <svg
           width="13.9"
           height="13.9"

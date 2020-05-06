@@ -36,7 +36,7 @@ export default class ColorPickerOption extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .color-picker-container {
   display: flex;
   align-items: center;

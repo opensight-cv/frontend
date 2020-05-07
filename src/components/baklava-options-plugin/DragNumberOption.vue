@@ -49,12 +49,11 @@ export default class DragNumberOption extends NumberOption {
   }
 
   clamp(num: number) {
-    const min = this.option.min || -100;
-    const max = this.option.max || 100;
+    let ret = num;
+    if (this.option.min) ret = Math.max(this.option.min, ret);
+    if (this.option.max) ret = Math.min(this.option.max, ret);
 
-    if (num <= min) return min;
-    if (num >= max) return max;
-    return num;
+    return ret;
   }
 
   mounted() {
@@ -62,7 +61,7 @@ export default class DragNumberOption extends NumberOption {
   }
 
   startDrag() {
-    const moveListener = this.handleMouseMove.bind(this);
+    const moveListener = () => this.handleMouseMove;
     const originalVal = this.displayValue;
 
     const handleMouseUp = () => {

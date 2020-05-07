@@ -61,7 +61,7 @@ export default class DragNumberOption extends NumberOption {
   }
 
   startDrag() {
-    const moveListener = () => this.handleMouseMove;
+    const moveListener = (e: MouseEvent) => this.handleMouseMove(e);
     const originalVal = this.displayValue;
 
     const handleMouseUp = () => {

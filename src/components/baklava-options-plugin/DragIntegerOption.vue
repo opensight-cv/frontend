@@ -12,7 +12,6 @@ import DragNumberOption from "./DragNumberOption.vue";
  * max - maximum value
  *    defaults to 100
  */
- @Component
 export default class DragIntegerOption extends DragNumberOption {
   get stringRep() {
     const s = this.displayValue.toFixed(0);

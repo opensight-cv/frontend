@@ -8,6 +8,10 @@ import DragNumberOption from "./DragNumberOption.vue";
  *      defaults to 1
  * floatPrecision - precision to which the float should be shown
  *      defaults to 3
+ * min - minimum value
+ *      defaults to -100
+ * max - maximum value
+ *    defaults to 100
  */
 export default class DragIntegerOption extends DragNumberOption {
   get stringRep() {

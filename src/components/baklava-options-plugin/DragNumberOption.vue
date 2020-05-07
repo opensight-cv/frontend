@@ -39,16 +39,26 @@ export default class DragNumberOption extends NumberOption {
 
   @Watch("editMode")
   updateVals() {
+    // Baklava handles validating min/max values set by manual edit
     this.displayValue = this.v;
   }
 
   handleMouseMove(e: MouseEvent) {
     const step = this.option.step || 1;
-    this.displayValue += e.movementX * step;
+    this.displayValue = this.clamp(this.displayValue + e.movementX * step);
   }
 
-  created() {
-    if (this.option.defaultValue) this.displayValue = this.option.defaultValue;
+  clamp(num: number) {
+    const min = this.option.min || -100;
+    const max = this.option.max || 100;
+
+    if (num <= min) return min;
+    if (num >= max) return max;
+    return num;
+  }
+
+  mounted() {
+    if (this.option.default) this.displayValue = this.option.default;
   }
 
   startDrag() {
@@ -72,12 +82,12 @@ export default class DragNumberOption extends NumberOption {
 
   incrementVal() {
     const step = this.option.step || 1;
-    this.setVal(this.v + step);
+    this.setVal(this.clamp(this.v + step));
   }
 
   decrementVal() {
     const step = this.option.step || 1;
-    this.setVal(this.v - step);
+    this.setVal(this.clamp(this.v - step));
   }
 
   setVal(value: number) {

@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Component } from "vue-property-decorator";
 import DragNumberOption from "./DragNumberOption.vue";
 
 /**

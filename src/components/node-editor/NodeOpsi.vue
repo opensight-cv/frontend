@@ -12,8 +12,7 @@
     >
       <span style="width: 80%;">{{ data.name }}</span>
 
-      <div @click="deleteNode"
-        style="cursor: pointer;">
+      <div style="cursor: pointer;" @click="deleteNode">
         <svg
           width="13.9"
           height="13.9"
@@ -112,7 +111,6 @@ import { ViewPlugin, Components } from "@baklavajs/plugin-renderer-vue";
 
 @Component({})
 export default class NodeViewOpsi extends Components.Node {
-
   contextMenu = {
     show: false,
     x: 0,

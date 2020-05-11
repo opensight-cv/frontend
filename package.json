@@ -19,6 +19,7 @@
     "core-js": "^3.6.4",
     "ky": "^0.19.1",
     "normalize.css": "^8.0.1",
+    "v-click-outside": "^3.0.1",
     "vue": "^2.6.11",
     "vue-property-decorator": "^8.4.2"
   },

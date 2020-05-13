@@ -7,7 +7,7 @@
         gridTemplateColumns: 'auto min-content',
         paddingRight: '5.2px',
       }"
-      @mousedown.self.stop="startDrag"
+      @mousedown.self.stop.left="startDrag"
       @contextmenu.self.prevent="openContextMenu"
     >
       <span style="width: 80%;">{{ data.name }}</span>
@@ -118,8 +118,18 @@ export default class NodeViewOpsi extends Components.Node {
     items: [{ value: "delete", label: "Delete" }],
   };
 
+
+
   deleteNode() {
     this.plugin.editor.removeNode(this.data);
+  }
+
+  startDrag() {
+    this.contextMenu.show = false;
+    this.dragging = true;
+    document.addEventListener("mousemove", this.handleMove);
+    document.addEventListener("mouseup", this.stopDrag);
+    this.select();
   }
 
   onContextMenu(action: string) {

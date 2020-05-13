@@ -1,5 +1,5 @@
 <template>
-  <div v-show="value" v-click-outside="onClickOutside" :class="classes" :style="styles">
+  <div v-show="value" v-click-outside="vcoConfig" :class="classes" :style="styles">
     <template v-for="(item, index) in _items">
       <div v-if="item.isDivider" :key="index" class="divider"></div>
 
@@ -45,6 +45,14 @@ export default class ContextMenu extends Components.ContextMenu {
     if (this.value) {
       this.$emit("input", false);
     }
+  }
+  
+  vcoConfig = {
+        handler: this.onContextOutside,
+        events: ['mousedown', 'click'],
+        // Note: The default value is true, but in case you want to activate / deactivate
+        //       this directive dynamically use this attribute.
+        isActive: true
   }
 
   onContextOutside(e: MouseEvent) {

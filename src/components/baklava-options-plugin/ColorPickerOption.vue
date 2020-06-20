@@ -60,4 +60,35 @@ export default class ColorPickerOption extends Vue {
   top: 0%;
   z-index: 999;
 }
+
+.vc-chrome {
+  background-color: unset !important;
+  background: unset !important;
+}
+
+.vc-chrome-body {
+  background-color: #333333 !important;
+}
+
+.vc-chrome-fields .vc-input__input {
+  color: #ffffff !important;
+  background-color: rgb(44, 44, 44) !important;
+  box-shadow: unset !important;
+}
+
+.vc-chrome-toggle-icon {
+  filter: brightness(100); /* Changing color of SVG */
+}
+
+.vc-chrome-hue-wrap {
+  margin-top: 10px;
+}
+
+.vc-chrome-alpha-wrap {
+  display: none;
+}
+
+.vc-chrome-hue-wrap .vc-hue-picker {
+  background-color: #232323 !important;
+}
 </style>

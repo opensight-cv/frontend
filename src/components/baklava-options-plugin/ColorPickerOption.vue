@@ -6,7 +6,7 @@
       :style="{ backgroundColor: value }"
       tabindex="-1"
       @click="isOpen = true"
-      @focusout="isOpen = false"
+      @focusout="focusout"
     >
       <chrome-picker
         v-show="isOpen"
@@ -32,6 +32,11 @@ export default class ColorPickerOption extends Vue {
   value!: string;
 
   isOpen = false;
+
+  focusout(event: any) {
+    if(event.relatedTarget.className !== "vc-input__input")  // Prevent dialog from closing when clicking an input
+      this.isOpen = false;
+  }
 }
 </script>
 
@@ -74,6 +79,7 @@ export default class ColorPickerOption extends Vue {
   color: #ffffff !important;
   background-color: rgb(44, 44, 44) !important;
   box-shadow: unset !important;
+  font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
 }
 
 .vc-chrome-toggle-icon {

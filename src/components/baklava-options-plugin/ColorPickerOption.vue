@@ -82,6 +82,10 @@ export default class ColorPickerOption extends Vue {
   font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
 }
 
+vc-input__label {
+  font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
+}
+
 .vc-chrome-toggle-icon {
   filter: brightness(100); /* Changing color of SVG */
 }

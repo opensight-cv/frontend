@@ -82,7 +82,7 @@ export default class ColorPickerOption extends Vue {
   font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
 }
 
-vc-input__label {
+.vc-input__label {
   font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
 }
 

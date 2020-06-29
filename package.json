@@ -20,9 +20,11 @@
     "@baklavajs/plugin-options-vue": "^1.5.2",
     "@baklavajs/plugin-renderer-vue": "^1.5.5",
     "core-js": "^3.6.4",
+    "@types/vue-color": "^2.4.2",
     "ky": "^0.19.1",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
+    "vue-color": "git+https://git@github.com/opensight-cv/vue-color.git#hack",
     "vue-property-decorator": "^8.4.2"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@
   "repository": "github:opensight-cv/frontend",
   "scripts": {
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode development --watch",
     "lint": "prettier --write . \"!{src,dist}/{**,*}\" ; vue-cli-service lint --fix",
     "profile": "vue-cli-service build --report",
     "serve": "vue-cli-service serve",

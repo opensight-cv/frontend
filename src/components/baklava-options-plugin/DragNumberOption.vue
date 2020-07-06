@@ -50,8 +50,8 @@ export default class DragNumberOption extends NumberOption {
 
   clamp(num: number) {
     let ret = num;
-    if (this.option.min) ret = Math.max(this.option.min, ret);
-    if (this.option.max) ret = Math.min(this.option.max, ret);
+    if (this.option.min !== undefined) ret = Math.max(this.option.min, ret);
+    if (this.option.max !== undefined) ret = Math.min(this.option.max, ret);
 
     return ret;
   }
@@ -72,6 +72,7 @@ export default class DragNumberOption extends NumberOption {
 
       // if no change from the mouse events, it was probably a click, so enter edit mode
       if (originalVal === this.displayValue) this.enterEditMode();
+      // tempValue used internally for edit mode display
       if (this instanceof DragIntegerOption) this.tempValue = this.displayValue.toFixed(0);
     };
 

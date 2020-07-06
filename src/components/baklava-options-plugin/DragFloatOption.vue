@@ -3,15 +3,10 @@ import DragNumberOption from "./DragNumberOption.vue";
 
 /**
  * Parameters:
- * defaultValue - default starting value for number input
- * step - how 'fast' the value is decreased/increased when sliding or using the arrow keys
- *      defaults to 1
- * floatPrecision - precision to which the float should be shown
- *      defaults to 3
- * min - minimum value
- *      defaults to -100
- * max - maximum value
- *    defaults to 100
+ * step?: how fast the value changes when sliding or using the arrow keys; defaults to 1
+ * default?: default value
+ * min?: minimum value
+ * max?: maximum value
  */
 export default class DragIntegerOption extends DragNumberOption {
   get stringRep() {

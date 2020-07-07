@@ -34,7 +34,8 @@ export default class ColorPickerOption extends Vue {
   isOpen = false;
 
   focusout(event: any) {
-    if(event.relatedTarget.className !== "vc-input__input")  // Prevent dialog from closing when clicking an input
+    if (event.relatedTarget.className !== "vc-input__input")
+      // Prevent dialog from closing when clicking an input
       this.isOpen = false;
   }
 }
@@ -79,11 +80,11 @@ export default class ColorPickerOption extends Vue {
   color: #ffffff !important;
   background-color: rgb(44, 44, 44) !important;
   box-shadow: unset !important;
-  font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
+  font-family: Lato, Segoe UI, Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .vc-input__label {
-  font-family: Lato,Segoe UI,Tahoma,Geneva,Verdana,sans-serif !important;
+  font-family: Lato, Segoe UI, Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .vc-chrome-toggle-icon {
@@ -100,5 +101,9 @@ export default class ColorPickerOption extends Vue {
 
 .vc-chrome-hue-wrap .vc-hue-picker {
   background-color: #232323 !important;
+}
+
+.vc-checkerboard {
+  display: none;
 }
 </style>

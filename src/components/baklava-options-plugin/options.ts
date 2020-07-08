@@ -5,7 +5,6 @@ import {
   IntegerOption,
   NumberOption,
   SelectOption,
-  SliderOption,
   TextOption,
 } from "@baklavajs/plugin-options-vue";
 

@@ -11,16 +11,21 @@
     "test": "vue-cli-service test:unit",
     "watch": "vue-cli-service build --watch --mode development"
   },
+  "browserslist": [
+    "since 2019"
+  ],
   "dependencies": {
     "@baklavajs/core": "^1.5.4",
     "@baklavajs/plugin-interface-types": "^1.5.2",
     "@baklavajs/plugin-options-vue": "^1.5.2",
     "@baklavajs/plugin-renderer-vue": "^1.5.5",
+    "@types/vue-color": "^2.4.2",
     "core-js": "^3.6.4",
     "ky": "^0.19.1",
     "normalize.css": "^8.0.1",
     "v-click-outside": "^3.0.1",
     "vue": "^2.6.11",
+    "vue-color": "git+https://git@github.com/opensight-cv/vue-color.git#hack",
     "vue-property-decorator": "^8.4.2"
   },
   "devDependencies": {
@@ -39,6 +44,8 @@
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "2.0.5",
     "prettier-plugin-packagejson": "^2.2.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2",
     "typescript": "^3.8.3",
     "vue-template-compiler": "^2.6.11"
   },

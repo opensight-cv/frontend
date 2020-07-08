@@ -99,6 +99,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
   for (const n of nodetree.nodes) {
     const NodeType = editor.nodeTypes.get(n.type);
     if (!NodeType) {
+      // eslint-disable-next-line no-console
       console.warn(`Node type ${n.type} is not registered`);
       continue;
     }
@@ -117,7 +118,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
     for (const [name, value] of Object.entries(n.inputs)) {
       if (value.value) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        node.interfaces.get(`in-${name}`)!.value = value;
+        node.interfaces.get(`in-${name}`)!.value = value.value;
       } else if (value.link) {
         const arr = linkMap.get(node) ?? [];
         arr.push({

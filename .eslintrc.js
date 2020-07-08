@@ -25,5 +25,6 @@ module.exports = {
     // Broken with typescript (still)
     "no-unused-vars": "off",
     "no-continue": "off",
+    "no-multi-assign": "off",
   },
 };

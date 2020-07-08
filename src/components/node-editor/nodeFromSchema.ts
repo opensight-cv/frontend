@@ -15,6 +15,8 @@ function defaultValue(io: InputOutput): unknown {
       return io.params.min ?? 0;
     case "Enum":
       return (io.params.items as unknown[])[0];
+    case "Color":
+      return "#95C624";
     default:
       return undefined;
   }
@@ -27,11 +29,13 @@ function optionName(io: InputOutput): string | undefined {
     case "bool":
       return "CheckboxOption";
     case "int":
-      return "IntegerOption";
+      return "DragIntegerOption";
     case "float":
-      return "NumberOption";
+      return "DragFloatOption";
     case "Enum":
       return "SelectOption";
+    case "Color":
+      return "ColorPickerOption";
     default:
       return undefined;
   }

@@ -15,7 +15,7 @@ import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
 
 import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
-import { getNodetree, getSchema, postNodetree } from "@/api/api";
+import { getNodetree, getSchema, postNodetree, throttle } from "@/api/api";
 import { loadNodeTree, saveNodetree } from "@/components/node-editor/nodeTreeSerialize";
 
 export default Vue.extend({
@@ -44,6 +44,8 @@ export default Vue.extend({
 
     const schema = await getSchema();
 
+    const throttledSave = throttle(this.save, 500);
+
     schema.modules.forEach((module) => {
       module.funcs.forEach((func) => {
         const { name, type } = nodeCtorFromFunction(func);
@@ -51,38 +53,37 @@ export default Vue.extend({
       });
     });
 
-    console.log(await getNodetree());
-    loadNodeTree(this.editor, this.viewPlugin, await getNodetree());
+    const nodetree = await getNodetree();
+    // eslint-disable-next-line no-console
+    console.log(nodetree);
+    loadNodeTree(this.editor, this.viewPlugin, nodetree);
 
     this.editor.nodes.forEach((node) => {
-      node.events.update.addListener(this, async () => {
-        await this.save();
-      });
+      node.events.update.addListener(this, throttledSave);
     });
     this.editor.events.addNode.addListener({}, async (node) => {
-      node.events.update.addListener(this, async () => {
-        await this.save();
-      });
-      await this.save();
+      node.events.update.addListener(this, throttledSave);
+      await throttledSave();
     });
     this.editor.events.removeNode.addListener({}, async (node) => {
       node.events.update.removeListener(this);
-      await this.save();
+      await throttledSave();
     });
-    this.editor.events.addConnection.addListener({}, async () => {
-      await this.save();
-    });
-    this.editor.events.removeConnection.addListener({}, async () => {
-      await this.save();
-    });
+    this.editor.events.addConnection.addListener({}, throttledSave);
+    this.editor.events.removeConnection.addListener({}, throttledSave);
   },
   methods: {
     async save() {
-      const data = saveNodetree(this.editor, this.viewPlugin);
-      console.log(data.nodes[data.nodes.length - 1].extras.position?.x);
-      console.log(JSON.stringify(data));
+      const updatedNodetree = saveNodetree(this.editor, this.viewPlugin);
+      // eslint-disable-next-line no-console
+      console.log(updatedNodetree);
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(updatedNodetree));
 
-      await postNodetree(data);
+      // eslint-disable-next-line no-console
+      console.log(await postNodetree(updatedNodetree));
+      // eslint-disable-next-line no-console
+      console.log(await getNodetree());
     },
   },
 });

@@ -174,7 +174,7 @@ export default class NodeViewOpsi extends Components.Node {
       const [name, value] = option[1];
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      node.options.get(name)!.value = value;
+      node.setOptionValue(name, value);
     }
 
     node.position = {

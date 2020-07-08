@@ -13,6 +13,8 @@ import ColorPickerOption from "./ColorPickerOption.vue";
 import DragIntegerOption from "./DragIntegerOption.vue";
 import DragFloatOption from "./DragFloatOption.vue";
 
+import RangeNumberOption from "./RangeNumberOption.vue";
+
 export {
   ButtonOption,
   CheckboxOption,
@@ -20,7 +22,7 @@ export {
   IntegerOption,
   NumberOption,
   SelectOption,
-  SliderOption,
+  RangeNumberOption,
   TextOption,
   ColorPickerOption,
   DragIntegerOption,

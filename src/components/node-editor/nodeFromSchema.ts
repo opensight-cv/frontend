@@ -34,8 +34,13 @@ function optionName(io: InputOutput): string | undefined {
       return "DragFloatOption";
     case "Enum":
       return "SelectOption";
+<<<<<<< HEAD
     case "Color":
       return "ColorPickerOption";
+=======
+    case "Range":
+        return "RangeNumberOption"
+>>>>>>> 8d78e57... fix merge conflix + change type
     default:
       return undefined;
   }

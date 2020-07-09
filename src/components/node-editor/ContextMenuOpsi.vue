@@ -40,20 +40,19 @@ import ClickOutside from "v-click-outside";
   },
 })
 export default class ContextMenu extends Components.ContextMenu {
-
   onClickOutside(event: MouseEvent) {
     if (this.value) {
       this.$emit("input", false);
     }
   }
-  
+
   vcoConfig = {
-        handler: this.onContextOutside,
-        events: ['mousedown', 'click'],
-        // Note: The default value is true, but in case you want to activate / deactivate
-        //       this directive dynamically use this attribute.
-        isActive: true
-  }
+    handler: this.onContextOutside,
+    events: ["mousedown", "click"],
+    // Note: The default value is true, but in case you want to activate / deactivate
+    //       this directive dynamically use this attribute.
+    isActive: true,
+  };
 
   onContextOutside(e: MouseEvent) {
     if (this.value) {

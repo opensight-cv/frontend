@@ -5,7 +5,7 @@
       'node-editor',
       { 'ignore-mouse': !!temporaryConnection, '--temporary-connection': !!temporaryConnection },
     ]"
-    @mousemove.self="mouseMoveHandler"
+    @mousemove="mouseMoveHandler"
     @mousedown="mouseDown"
     @mouseup="mouseUp"
     @wheel.self="mouseWheel"

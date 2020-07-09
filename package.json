@@ -23,6 +23,8 @@
     "core-js": "^3.6.4",
     "ky": "^0.19.1",
     "normalize.css": "^8.0.1",
+    "v-click-outside": "^3.0.1",
+    "portal-vue": "^2.1.7",
     "vue": "^2.6.11",
     "vue-color": "git+https://git@github.com/opensight-cv/vue-color.git#hack",
     "vue-property-decorator": "^8.4.2"

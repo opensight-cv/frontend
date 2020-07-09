@@ -6,6 +6,10 @@
 import { Editor } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 
+import NodeOpsi from "@/components/node-editor/NodeOpsi.vue";
+import NodeInterfaceOpsi from "@/components/node-editor/NodeInterfaceOpsi.vue";
+import ContextMenuOpsi from "@/components/node-editor/ContextMenuOpsi.vue";
+
 import Vue from "vue";
 import { InterfaceTypePlugin } from "@baklavajs/plugin-interface-types";
 import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
@@ -23,6 +27,9 @@ export default Vue.extend({
     };
   },
   async created() {
+    this.viewPlugin.components.node = NodeOpsi;
+    this.viewPlugin.components.nodeInterface = NodeInterfaceOpsi;
+    this.viewPlugin.components.contextMenu = ContextMenuOpsi;
     this.editor.use(this.viewPlugin);
     this.editor.use(this.interfacePlugin);
     this.editor.use(new OptionPlugin());

@@ -1,4 +1,5 @@
 <script lang="ts">
+import { Component } from "vue-property-decorator";
 import DragNumberOption from "./DragNumberOption.vue";
 
 /**
@@ -8,6 +9,7 @@ import DragNumberOption from "./DragNumberOption.vue";
  * min?: minimum value
  * max?: maximum value
  */
+@Component
 export default class DragIntegerOption extends DragNumberOption {
   get stringRep() {
     const s = this.displayValue.toFixed(0);

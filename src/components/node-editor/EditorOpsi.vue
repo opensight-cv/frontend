@@ -53,8 +53,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Provide, Watch } from "vue-property-decorator";
-import { VueConstructor } from "vue";
+import { Component, Watch } from "vue-property-decorator";
 
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import {

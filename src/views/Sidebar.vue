@@ -1,17 +1,15 @@
 <template>
   <div class="__sidebar">
-    <img src="@/img/nodetree.png" />
-    <img src="@/img/settings.png" />
-    <img src="@/img/preview.png" />
+    <router-link to="/nodeEditor"><img src="@/img/nodetree.png" /></router-link>
+    <router-link to="/settings"><img src="@/img/settings.png" /></router-link>
+    <router-link to="/hooks"><img src="@/img/hooks.png" /></router-link>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend({
-  
-});
+export default Vue.extend();
 </script>
 
 <style scoped>
@@ -24,8 +22,8 @@ export default Vue.extend({
   align-items: center;
 }
 
-.__sidebar > img {
-  margin: 20% 0;
+.__sidebar img {
+  margin: 20% 12.5%;
   width: 75%;
 }
 </style>

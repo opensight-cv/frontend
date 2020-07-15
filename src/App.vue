@@ -13,8 +13,8 @@ import VueRouter from "vue-router";
 
 import NodeEditor from "@/views/Editor.vue";
 import Sidebar from "@/views/Sidebar.vue";
-import Settings from './views/Settings.vue';
-import Hooks from './views/Hooks.vue';
+import Settings from "./views/Settings.vue";
+import Hooks from "./views/Hooks.vue";
 
 
 const routes = [
@@ -44,7 +44,7 @@ export default Vue.extend({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   transition-property: opacity;
   transition-timing-function: ease-in-out;
 }

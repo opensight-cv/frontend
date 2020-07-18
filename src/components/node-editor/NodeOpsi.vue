@@ -105,14 +105,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Inject } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
-import { ViewPlugin, Components, Editor } from "@baklavajs/plugin-renderer-vue";
+import { Components } from "@baklavajs/plugin-renderer-vue";
 
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { IViewNode } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 
-@Component({})
+@Component
 export default class NodeViewOpsi extends Components.Node {
   contextMenu = {
     show: false,

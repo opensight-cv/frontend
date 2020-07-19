@@ -9,7 +9,7 @@ export default class BaseNumericRangeOption extends Vue {
   MAX_STRING_LENGTH = 9;
 
   // In string form; lower and upper values separated by a space
-  @Prop()
+  @Prop({ type: Object })
   value!: {min: number, max: number};
 
   @Prop({ type: String })
@@ -103,7 +103,7 @@ export default class BaseNumericRangeOption extends Vue {
   }
 
   emitValue() {
-    this.$emit("input", [this.vLower, this.vUpper]);
+    this.$emit("input", {min: this.vLower, max: this.vUpper});
   }
 
   setLowerValue(newValue: number, triggerEmit: boolean) {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { IPlugin, IEditor } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-core/types";
 import { IViewPlugin } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 
@@ -94,7 +95,7 @@ export class InterfaceTypePlugin implements IPlugin {
   public canConvert(from: string, to: string): boolean {
     return (
       from === to ||
-      (this.types.has(from) && this.types.get(from)!.conversions.some((c) => c.targetType === to))
+      this.getConversion(from, to) !== undefined
     );
   }
 

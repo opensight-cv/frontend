@@ -37,7 +37,7 @@ function optionName(io: InputOutput): string | undefined {
     case "Color":
       return "ColorPickerOption";
     case "Range":
-        return "RangeNumberOption"
+      return "RangeNumberOption";
     default:
       return undefined;
   }

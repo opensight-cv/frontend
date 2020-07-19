@@ -26,5 +26,7 @@ module.exports = {
     "no-unused-vars": "off",
     "no-continue": "off",
     "no-multi-assign": "off",
+    "@typescript-eslint/camelcase": "off", // backend api uses snake_case
+    "camelcase": "off",
   },
 };

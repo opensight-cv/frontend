@@ -1,6 +1,7 @@
 import ky from "ky";
 import { Schema } from "@/api/funcSchema";
 import { Nodetree } from "@/api/nodeSchema";
+import { FrontendSettings, NetworkSettings } from "@/api/settingSchemma";
 
 const api = ky.create({
   prefixUrl: "/api/",
@@ -16,6 +17,14 @@ export async function getNodetree(): Promise<Nodetree> {
 
 export function postNodetree(nodetree: Nodetree) {
   return api.post("nodes", { json: nodetree });
+}
+
+export function getSettings(): Promise<FrontendSettings> {
+  return api.get("config").json();
+}
+
+export function postNetworkSettings(settings: NetworkSettings) {
+  return api.post("network", { json: settings });
 }
 
 // Code below adapted from https://github.com/jcoreio/async-throttle/tree/master/src

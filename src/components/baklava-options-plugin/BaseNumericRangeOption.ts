@@ -10,7 +10,7 @@ export default class BaseNumericRangeOption extends Vue {
 
   // In string form; lower and upper values separated by a space
   @Prop()
-  value!: [number, number];
+  value!: {min: number, max: number};
 
   @Prop({ type: String })
   name!: string;
@@ -55,8 +55,9 @@ export default class BaseNumericRangeOption extends Vue {
     if (this.option.decimal === false) this.isDecimal = false;
     if (this.value) {
       // if a value was provided
-      if (this.validateLower(this.value[0]) && this.validateUpper(this.value[1])) {
-        [this.valueLower, this.valueUpper] = this.value;
+      if (this.validateLower(this.value.min) && this.validateUpper(this.value.max)) {
+        this.valueLower = this.value.min;
+        this.valueUpper = this.value.max;
       }
     } else {
       // values default to min and max

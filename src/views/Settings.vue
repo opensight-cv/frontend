@@ -10,17 +10,17 @@
         </p>
 
         <form id="update-form" enctype="multipart/form-data" method="post" name="update-form">
-          <input type="file" required />
+          <input type="file" @change="updateFile = $event.target.files[0]" required />
         </form>
-        <p><button id="update-button">Update</button></p>
+        <p><button id="update-button" @click="postUpdate" :disabled="!updateEnabled">Update</button></p>
       </pref-node>
 
       <pref-node title="Import/Export">
         <p>Import / Export a nodetree.</p>
         <form id="import-form" enctype="multipart/form-data" method="post" name="import-form">
-          <input type="file" required />
+          <input type="file" @change="nodetreeFile = $event.target.files[0]" required />
         </form>
-        <p><button id="import-button">Import</button> <button id="export-button">Export</button></p>
+        <p><button id="import-button" @click="postNodetree" :disabled="!nodetreeEnabled">Import</button> <button id="export-button" @click="exportNodetree">Export</button></p>
       </pref-node>
 
       <pref-node title="Network Config">
@@ -64,29 +64,29 @@
       </pref-node>
 
       <pref-node title="Profiles">
-        <p>Current Profile: 420</p>
-        <button class="profile-button">0</button>
-        <button class="profile-button">1</button>
-        <button class="profile-button">2</button>
-        <button class="profile-button">3</button>
-        <button class="profile-button">4</button>
+        <p>Current Profile: <span v-text="currentProfile"></span> </p>
+        <button class="profile-button" @click="selectProfile($event)">0</button>
+        <button class="profile-button" @click="selectProfile($event)">1</button>
+        <button class="profile-button" @click="selectProfile($event)">2</button>
+        <button class="profile-button" @click="selectProfile($event)">3</button>
+        <button class="profile-button" @click="selectProfile($event)">4</button>
         <br />
-        <button class="profile-button">5</button>
-        <button class="profile-button">6</button>
-        <button class="profile-button">7</button>
-        <button class="profile-button">8</button>
-        <button class="profile-button">9</button>
+        <button class="profile-button" @click="selectProfile($event)">5</button>
+        <button class="profile-button" @click="selectProfile($event)">6</button>
+        <button class="profile-button" @click="selectProfile($event)">7</button>
+        <button class="profile-button" @click="selectProfile($event)">8</button>
+        <button class="profile-button" @click="selectProfile($event)">9</button>
         <br />
-        <p><button>Delete Selected Profile</button></p>
+        <p><button @click="deleteCurrentProfile">Delete Selected Profile</button></p>
       </pref-node>
 
       <pref-node title="Actions">
-        <p><button>Restart OpenSight</button></p>
-        <p><button>Restart System</button></p>
-        <p><button>Shutdown System</button></p>
+        <p><button @click="restart(false)">Restart OpenSight</button></p>
+        <p><button @click="shutdown(false)">Stop OpenSight</button></p>
+        <p><button @click="restart(true)" v-if="daemon">Restart System</button></p>
+        <p><button @click="shutdown(true)" v-if="daemon">Shutdown System</button></p>
       </pref-node>
     </div>
-    <snackbar />
   </div>
 </template>
 
@@ -96,32 +96,36 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import PrefNode from "@/components/ui/PrefNode.vue";
-import Snackbar from "@/components/ui/Snackbar.vue";
 
-import { getSettings, postNetworkSettings } from "@/api/api";
+import { getSettings, postUpdate, postNetworkSettings, postNodetreeFile, getNodetree, postProfile, deleteCurrentProfile, postRestart, postShutdown } from "@/api/api";
 import { FrontendSettings, NetworkSettings } from '../api/settingSchemma';
 
 @Component({
-  components: { PrefNode, Snackbar },
+  components: { PrefNode },
 })
 export default class Settings extends Vue {
+  updateEnabled = true;
+  updateFile?: File;
+
+  nodetreeEnabled = true;
+  nodetreeFile?: File;
+
   teamNumber = 1072;
-
   selectedDNSMode = "";
-
   dnsOptions: string[] = [];
-
   ipAssignMode = "";
-
   ntEnabled = false;
-
   staticExtension = 0;
-
   ntMode = "";
+
+  currentProfile = 0;
+
+  daemon = false;
 
   async created() {
     const settings = await getSettings();
     console.log(settings);
+
     this.dnsOptions = settings.status.network_mode;
     this.selectedDNSMode = settings.preferences.network.mode;
     this.teamNumber = Number(settings.preferences.network.team);
@@ -129,6 +133,46 @@ export default class Settings extends Vue {
     this.staticExtension = Number(settings.preferences.network.static_ext);
     this.ntMode = settings.preferences.network.nt_client ? "client" : "server";
     this.ntEnabled = settings.preferences.network.nt_enabled;
+
+    this.currentProfile = settings.preferences.profile;
+
+    this.daemon = settings.status.daemon;
+  }
+
+  postUpdate() {
+    if(this.updateFile == null) {
+      this.$root.$emit("snackbar-error", "You must select an update file.");
+      return;
+    }
+
+    const data = new FormData();
+    data.append("file", this.updateFile);
+    this.updateEnabled = false;
+    postUpdate(data).then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", "Update has been initiated.")
+    }).catch(this.handleError).then(() => { this.updateEnabled = true });
+  }
+
+  postNodetree() {
+    if(this.nodetreeFile == null) {
+      this.$root.$emit("snackbar-error", "You must select a nodetree file.");
+      return;
+    }
+
+    postNodetreeFile(this.nodetreeFile).then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", "Nodetree has been uploaded.")
+    }).catch(this.handleError).then(() => { this.nodetreeEnabled = true });
+  }
+
+  async exportNodetree() {
+    const url = window.URL.createObjectURL(new Blob([JSON.stringify(await getNodetree())]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'nodetree.opsi');
+    document.body.appendChild(link);
+    link.click();
   }
 
   postNetwork() {
@@ -144,7 +188,42 @@ export default class Settings extends Vue {
     postNetworkSettings(settings).then((resp) => {
       console.log(resp);
       this.$root.$emit("snackbar-success", "Network settings were successfully updated.");
-    })
+    }).catch(this.handleError);
+  }
+
+  selectProfile(event: Event) {
+    const profileID = Number((event.target as any).innerText);
+    postProfile(profileID).then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", `Profile ${profileID} selected.`);
+      this.currentProfile = profileID;
+    }).catch(this.handleError);
+  }
+
+  deleteCurrentProfile() {
+    deleteCurrentProfile().then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", "Profile successfully deleted.");
+    }).catch(this.handleError);
+  }
+
+  restart(host: boolean) {
+    postRestart(host).then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", "Restart has been initiated.");
+    }).catch(this.handleError);
+  }
+
+  shutdown(host: boolean) {
+    postShutdown(host).then((resp) => {
+      console.log(resp);
+      this.$root.$emit("snackbar-success", "Restart has been initiated.");
+    }).catch(this.handleError);
+  }
+
+  handleError(message: any) {
+    console.error(message);
+    this.$root.$emit("snackbar-error", "An unexpected error occured.");
   }
 }
 </script>

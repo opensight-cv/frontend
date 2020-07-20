@@ -4,6 +4,7 @@
     <transition name="fade" mode="out-in">
       <router-view style="width: 95%;"></router-view>
     </transition>
+        <snackbar />
   </div>
 </template>
 
@@ -13,9 +14,9 @@ import VueRouter from "vue-router";
 
 import NodeEditor from "@/views/Editor.vue";
 import Sidebar from "@/views/Sidebar.vue";
+import Snackbar from '@/components/ui/Snackbar.vue';
 import Settings from "./views/Settings.vue";
 import Hooks from "./views/Hooks.vue";
-
 
 const routes = [
   { path: "/", component: NodeEditor },
@@ -30,7 +31,7 @@ const router = new VueRouter({
 Vue.use(VueRouter);
 
 export default Vue.extend({
-  components: { Sidebar },
+  components: { Sidebar, Snackbar },
   router,
 });
 </script>
@@ -53,5 +54,4 @@ export default Vue.extend({
 .fade-leave-active {
   opacity: 0
 }
-
 </style>

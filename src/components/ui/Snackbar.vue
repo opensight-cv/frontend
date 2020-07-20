@@ -20,6 +20,8 @@ export default class Snackbar extends Vue {
 
   snackbarActive = false;
 
+  snackbarActionID = 0;
+
   static async sleep(ms: number) {
     return new Promise((res, rej) => {
       setTimeout(res, ms);
@@ -28,19 +30,27 @@ export default class Snackbar extends Vue {
 
   mounted() {
     this.$root.$on("snackbar-success", async (text: string) => {
+      this.snackbarActionID += 1;
+      const currentAction = this.snackbarActionID;
+
       this.text = text;
       this.backgroundColor = "#00AA00";
       this.snackbarActive = true;
       await Snackbar.sleep(4000);
-      this.snackbarActive = false;
+      if(this.snackbarActionID === currentAction)
+        this.snackbarActive = false;
     });
     this.$root.$on("snackbar-error", async (text : string) => {
+      this.snackbarActionID += 1;
+      const currentAction = this.snackbarActionID;
+      
       this.text = text;
       this.backgroundColor = "#FF5050";
 
       this.snackbarActive = true;
       await Snackbar.sleep(4000);
-      this.snackbarActive = false;
+      if(this.snackbarActionID === currentAction)
+        this.snackbarActive = false;
     })
   }
 

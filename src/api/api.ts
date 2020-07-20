@@ -27,12 +27,12 @@ export function postUpdate(update: FormData) {
   return api.post("upgrade", { body: update });
 }
 
-export function postNodetreeFile(nodetree: File) : Promise<Response> {
+export function postNodetreeFile(nodetree: File): Promise<Response> {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = (event) => {
       api.post("nodes?force_save=true", { body: event.target?.result }).then(resolve).catch(reject);
-    }
+    };
     fileReader.readAsText(nodetree);
   });
 }
@@ -42,13 +42,12 @@ export function postProfile(profile: number) {
 }
 
 export function deleteCurrentProfile() {
-  return api.post("nodes", { json: {nodes: [], extras: []}});
+  return api.post("nodes", { json: { nodes: [], extras: [] } });
 }
 
 export function postNetworkSettings(settings: NetworkSettings) {
   return api.post("network", { json: settings });
 }
-
 
 export function postRestart(host: boolean) {
   return api.post(`restart${host ? "-host" : ""}`);
@@ -57,8 +56,6 @@ export function postRestart(host: boolean) {
 export function postShutdown(host: boolean) {
   return api.post(`shutdown${host ? "-host" : ""}`);
 }
-
-
 
 // Code below adapted from https://github.com/jcoreio/async-throttle/tree/master/src
 /*

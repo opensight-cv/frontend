@@ -4,7 +4,7 @@
     <transition name="fade" mode="out-in">
       <router-view style="width: 95%;"></router-view>
     </transition>
-        <snackbar />
+    <snackbar />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import VueRouter from "vue-router";
 
 import NodeEditor from "@/views/Editor.vue";
 import Sidebar from "@/views/Sidebar.vue";
-import Snackbar from '@/components/ui/Snackbar.vue';
+import Snackbar from "@/components/ui/Snackbar.vue";
 import Settings from "./views/Settings.vue";
 import Hooks from "./views/Hooks.vue";
 
@@ -52,6 +52,6 @@ export default Vue.extend({
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>

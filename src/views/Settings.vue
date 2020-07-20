@@ -10,17 +10,24 @@
         </p>
 
         <form id="update-form" enctype="multipart/form-data" method="post" name="update-form">
-          <input type="file" @change="updateFile = $event.target.files[0]" required />
+          <input type="file" required @change="updateFile = $event.target.files[0]" />
         </form>
-        <p><button id="update-button" @click="postUpdate" :disabled="!updateEnabled">Update</button></p>
+        <p>
+          <button id="update-button" :disabled="!updateEnabled" @click="postUpdate">Update</button>
+        </p>
       </pref-node>
 
       <pref-node title="Import/Export">
         <p>Import / Export a nodetree.</p>
         <form id="import-form" enctype="multipart/form-data" method="post" name="import-form">
-          <input type="file" @change="nodetreeFile = $event.target.files[0]" required />
+          <input type="file" required @change="nodetreeFile = $event.target.files[0]" />
         </form>
-        <p><button id="import-button" @click="postNodetree" :disabled="!nodetreeEnabled">Import</button> <button id="export-button" @click="exportNodetree">Export</button></p>
+        <p>
+          <button id="import-button" :disabled="!nodetreeEnabled" @click="postNodetree">
+            Import
+          </button>
+          <button id="export-button" @click="exportNodetree">Export</button>
+        </p>
       </pref-node>
 
       <pref-node title="Network Config">
@@ -45,7 +52,14 @@
         </p>
         <p>
           <label for="static-ext">Static IP Extension:</label>
-          <input id="static-ext" v-model="staticExtension" type="number" min="2" max="255" step="1" />
+          <input
+            id="static-ext"
+            v-model="staticExtension"
+            type="number"
+            min="2"
+            max="255"
+            step="1"
+          />
         </p>
         <p>
           <label for="nt-enabled">NetworkTables Enabled:</label>
@@ -59,12 +73,12 @@
           </select>
         </p>
         <p>
-          <button id="submit-network" v-on:click="postNetwork">Update</button>
+          <button id="submit-network" @click="postNetwork">Update</button>
         </p>
       </pref-node>
 
       <pref-node title="Profiles">
-        <p>Current Profile: <span v-text="currentProfile"></span> </p>
+        <p>Current Profile: <span v-text="currentProfile"></span></p>
         <button class="profile-button" @click="selectProfile($event)">0</button>
         <button class="profile-button" @click="selectProfile($event)">1</button>
         <button class="profile-button" @click="selectProfile($event)">2</button>
@@ -83,22 +97,32 @@
       <pref-node title="Actions">
         <p><button @click="restart(false)">Restart OpenSight</button></p>
         <p><button @click="shutdown(false)">Stop OpenSight</button></p>
-        <p><button @click="restart(true)" v-if="daemon">Restart System</button></p>
-        <p><button @click="shutdown(true)" v-if="daemon">Shutdown System</button></p>
+        <p><button v-if="daemon" @click="restart(true)">Restart System</button></p>
+        <p><button v-if="daemon" @click="shutdown(true)">Shutdown System</button></p>
       </pref-node>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/camelcase, no-console */
 
 import { Vue, Component } from "vue-property-decorator";
 
 import PrefNode from "@/components/ui/PrefNode.vue";
 
-import { getSettings, postUpdate, postNetworkSettings, postNodetreeFile, getNodetree, postProfile, deleteCurrentProfile, postRestart, postShutdown } from "@/api/api";
-import { FrontendSettings, NetworkSettings } from '../api/settingSchemma';
+import {
+  getSettings,
+  postUpdate,
+  postNetworkSettings,
+  postNodetreeFile,
+  getNodetree,
+  postProfile,
+  deleteCurrentProfile,
+  postRestart,
+  postShutdown,
+} from "@/api/api";
+import { NetworkSettings } from "../api/settingSchemma";
 
 @Component({
   components: { PrefNode },
@@ -140,7 +164,7 @@ export default class Settings extends Vue {
   }
 
   postUpdate() {
-    if(this.updateFile == null) {
+    if (this.updateFile == null) {
       this.$root.$emit("snackbar-error", "You must select an update file.");
       return;
     }
@@ -148,29 +172,39 @@ export default class Settings extends Vue {
     const data = new FormData();
     data.append("file", this.updateFile);
     this.updateEnabled = false;
-    postUpdate(data).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Update has been initiated.")
-    }).catch(this.handleError).then(() => { this.updateEnabled = true });
+    postUpdate(data)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Update has been initiated.");
+      })
+      .catch(this.handleError)
+      .then(() => {
+        this.updateEnabled = true;
+      });
   }
 
   postNodetree() {
-    if(this.nodetreeFile == null) {
+    if (this.nodetreeFile == null) {
       this.$root.$emit("snackbar-error", "You must select a nodetree file.");
       return;
     }
 
-    postNodetreeFile(this.nodetreeFile).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Nodetree has been uploaded.")
-    }).catch(this.handleError).then(() => { this.nodetreeEnabled = true });
+    postNodetreeFile(this.nodetreeFile)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Nodetree has been uploaded.");
+      })
+      .catch(this.handleError)
+      .then(() => {
+        this.nodetreeEnabled = true;
+      });
   }
 
   async exportNodetree() {
     const url = window.URL.createObjectURL(new Blob([JSON.stringify(await getNodetree())]));
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.setAttribute('download', 'nodetree.opsi');
+    link.setAttribute("download", "nodetree.opsi");
     document.body.appendChild(link);
     link.click();
   }
@@ -183,45 +217,55 @@ export default class Settings extends Vue {
       dhcp: this.ipAssignMode === "DHCP",
       static_ext: `${this.staticExtension}`,
       nt_enabled: this.ntEnabled,
-      nt_client: this.ntMode === "client"
-    }
-    postNetworkSettings(settings).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Network settings were successfully updated.");
-    }).catch(this.handleError);
+      nt_client: this.ntMode === "client",
+    };
+    postNetworkSettings(settings)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Network settings were successfully updated.");
+      })
+      .catch(this.handleError);
   }
 
   selectProfile(event: Event) {
-    const profileID = Number((event.target as any).innerText);
-    postProfile(profileID).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", `Profile ${profileID} selected.`);
-      this.currentProfile = profileID;
-    }).catch(this.handleError);
+    const profileID = Number((event.target as HTMLElement).innerText);
+    postProfile(profileID)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", `Profile ${profileID} selected.`);
+        this.currentProfile = profileID;
+      })
+      .catch(this.handleError);
   }
 
   deleteCurrentProfile() {
-    deleteCurrentProfile().then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Profile successfully deleted.");
-    }).catch(this.handleError);
+    deleteCurrentProfile()
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Profile successfully deleted.");
+      })
+      .catch(this.handleError);
   }
 
   restart(host: boolean) {
-    postRestart(host).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Restart has been initiated.");
-    }).catch(this.handleError);
+    postRestart(host)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Restart has been initiated.");
+      })
+      .catch(this.handleError);
   }
 
   shutdown(host: boolean) {
-    postShutdown(host).then((resp) => {
-      console.log(resp);
-      this.$root.$emit("snackbar-success", "Restart has been initiated.");
-    }).catch(this.handleError);
+    postShutdown(host)
+      .then((resp) => {
+        console.log(resp);
+        this.$root.$emit("snackbar-success", "Restart has been initiated.");
+      })
+      .catch(this.handleError);
   }
 
-  handleError(message: any) {
+  handleError(message: Error) {
     console.error(message);
     this.$root.$emit("snackbar-error", "An unexpected error occured.");
   }

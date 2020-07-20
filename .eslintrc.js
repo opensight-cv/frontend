@@ -27,8 +27,7 @@ module.exports = {
     "no-continue": "off",
     "no-multi-assign": "off",
     "@typescript-eslint/camelcase": "off", // backend api uses snake_case
-    "camelcase": "off",
-    "lines-between-class-members": ["error", "always",  { exceptAfterSingleLine: true }],
+    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }],
     "class-methods-use-this": "off", // vue doesn't like this
   },
 };

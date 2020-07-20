@@ -1,12 +1,9 @@
 <template>
-   <transition name="snackbar-anim">
-      <div 
-        v-if="snackbarActive"
-        :style="{ backgroundColor }"
-        class="snackbar">
-        <span class="snackbar-text">{{ text }}</span>
-      </div>
-    </transition>
+  <transition name="snackbar-anim">
+    <div v-if="snackbarActive" :style="{ backgroundColor }" class="snackbar">
+      <span class="snackbar-text">{{ text }}</span>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -14,7 +11,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class Snackbar extends Vue {
-  text = ""
+  text = "";
 
   backgroundColor = "#ff5050";
 
@@ -25,7 +22,7 @@ export default class Snackbar extends Vue {
   static async sleep(ms: number) {
     return new Promise((res, rej) => {
       setTimeout(res, ms);
-    }); 
+    });
   }
 
   mounted() {
@@ -37,28 +34,26 @@ export default class Snackbar extends Vue {
       this.backgroundColor = "#00AA00";
       this.snackbarActive = true;
       await Snackbar.sleep(4000);
-      if(this.snackbarActionID === currentAction)
-        this.snackbarActive = false;
+      if (this.snackbarActionID === currentAction) this.snackbarActive = false;
     });
-    this.$root.$on("snackbar-error", async (text : string) => {
+    this.$root.$on("snackbar-error", async (text: string) => {
       this.snackbarActionID += 1;
       const currentAction = this.snackbarActionID;
-      
+
       this.text = text;
       this.backgroundColor = "#FF5050";
 
       this.snackbarActive = true;
       await Snackbar.sleep(4000);
-      if(this.snackbarActionID === currentAction)
-        this.snackbarActive = false;
-    })
+      if (this.snackbarActionID === currentAction) this.snackbarActive = false;
+    });
   }
 
   style() {
     console.log("style");
     return {
       backgroundColor: this.backgroundColor,
-    }
+    };
   }
 }
 </script>
@@ -79,10 +74,12 @@ export default class Snackbar extends Vue {
   bottom: 2rem;
 }
 
-.snackbar-anim-enter-active, .snackbar-anim-leave-active {
-  transition: all .4s ease;
+.snackbar-anim-enter-active,
+.snackbar-anim-leave-active {
+  transition: all 0.4s ease;
 }
-.snackbar-anim-enter, .snackbar-anim-leave-to {
+.snackbar-anim-enter,
+.snackbar-anim-leave-to {
   opacity: 0;
   transform: translateY(100%) translateX(-50%);
 }

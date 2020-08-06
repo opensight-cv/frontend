@@ -1,6 +1,7 @@
 import ky from "ky";
 import { Schema } from "@/api/funcSchema";
 import { Nodetree } from "@/api/nodeSchema";
+import { FrontendSettings, NetworkSettings } from "@/api/settingSchemma";
 
 const api = ky.create({
   prefixUrl: "/api/",
@@ -16,6 +17,44 @@ export async function getNodetree(): Promise<Nodetree> {
 
 export function postNodetree(nodetree: Nodetree) {
   return api.post("nodes", { json: nodetree });
+}
+
+export function getSettings(): Promise<FrontendSettings> {
+  return api.get("config").json();
+}
+
+export function postUpdate(update: FormData) {
+  return api.post("upgrade", { body: update });
+}
+
+export function postNodetreeFile(nodetree: File): Promise<Response> {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (event) => {
+      api.post("nodes?force_save=true", { body: event.target?.result }).then(resolve).catch(reject);
+    };
+    fileReader.readAsText(nodetree);
+  });
+}
+
+export function postProfile(profile: number) {
+  return api.post(`profile?profile=${profile}`);
+}
+
+export function deleteCurrentProfile() {
+  return api.post("nodes", { json: { nodes: [], extras: [] } });
+}
+
+export function postNetworkSettings(settings: NetworkSettings) {
+  return api.post("network", { json: settings });
+}
+
+export function postRestart(host: boolean) {
+  return api.post(`restart${host ? "-host" : ""}`);
+}
+
+export function postShutdown(host: boolean) {
+  return api.post(`shutdown${host ? "-host" : ""}`);
 }
 
 // Code below adapted from https://github.com/jcoreio/async-throttle/tree/master/src

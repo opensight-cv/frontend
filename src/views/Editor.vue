@@ -6,16 +6,16 @@
 import { Editor } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 
-import NodeOpsi from "@/components/node-editor/NodeOpsi.vue";
-import NodeInterfaceOpsi from "@/components/node-editor/NodeInterfaceOpsi.vue";
-import ContextMenuOpsi from "@/components/node-editor/ContextMenuOpsi.vue";
+// import NodeOpsi from "@/components/node-editor/NodeOpsi.vue";
+// import NodeInterfaceOpsi from "@/components/node-editor/NodeInterfaceOpsi.vue";
+// import ContextMenuOpsi from "@/components/node-editor/ContextMenuOpsi.vue";
 
 import Vue from "vue";
 import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
 
-import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
+import nodeCtorFromFunction from "@/api/nodeFromSchema";
 import { getNodetree, getSchema, postNodetree, throttle } from "@/api/api";
-import { loadNodeTree, saveNodetree } from "@/components/node-editor/nodeTreeSerialize";
+import { loadNodeTree, saveNodetree } from "@/api/nodeTreeSerialize";
 import { InterfaceTypePlugin } from "@/components/node-editor/nodeInterfacePlugin";
 
 export default Vue.extend({
@@ -27,9 +27,9 @@ export default Vue.extend({
     };
   },
   async created() {
-    this.viewPlugin.components.node = NodeOpsi as any;
-    this.viewPlugin.components.nodeInterface = NodeInterfaceOpsi as any;
-    this.viewPlugin.components.contextMenu = ContextMenuOpsi as any;
+    // this.viewPlugin.components.node = NodeOpsi as any;
+    // this.viewPlugin.components.nodeInterface = NodeInterfaceOpsi as any;
+    // this.viewPlugin.components.contextMenu = ContextMenuOpsi as any;
 
     this.editor.use(this.viewPlugin);
     this.editor.use(this.interfacePlugin);

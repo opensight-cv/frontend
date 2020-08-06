@@ -26,7 +26,7 @@
     "portal-vue": "^2.1.7",
     "v-click-outside": "^3.0.1",
     "vue": "^2.6.11",
-    "vue-color": "git+https://git@github.com/opensight-cv/vue-color.git#hack",
+    "vue-color": "^2.7.1",
     "vue-property-decorator": "^8.4.2"
   },
   "devDependencies": {

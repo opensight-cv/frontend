@@ -6,7 +6,7 @@ import PortalVue from "portal-vue";
 const Baklava = {
   install(Vue: VueConstructor): void {
     if (OurVue !== Vue) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(
         "Multiple instances of Vue detected\n" +
           "See https://github.com/vuetifyjs/vuetify/issues/4068\n\n" +

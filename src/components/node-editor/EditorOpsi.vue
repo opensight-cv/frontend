@@ -55,20 +55,8 @@
 <script lang="ts">
 import { Component, Watch } from "vue-property-decorator";
 
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import {
-  IEditor,
-  INode,
-  ITransferConnection,
-  INodeInterface,
-  ITemporaryConnection,
-  TemporaryConnectionState,
-  // eslint-disable-next-line import/no-unresolved, import/extensions
-} from "@baklavajs/core/dist/baklavajs-core/types";
 import { Editor } from "@baklavajs/plugin-renderer-vue";
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { IMenuItem } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/src/components/ContextMenu.vue";
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { IViewNode } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 
 @Component

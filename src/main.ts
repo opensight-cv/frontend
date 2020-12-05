@@ -8,8 +8,7 @@ import "@/styles/node.scss";
 
 import App from "@/App.vue";
 
-// eslint-disable-next-line
-import vClickOutside from "v-click-outside"
+import vClickOutside from "v-click-outside";
 
 Vue.use(vClickOutside);
 

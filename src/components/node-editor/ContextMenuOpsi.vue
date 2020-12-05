@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { Components } from "@baklavajs/plugin-renderer-vue";
 
 import ClickOutside from "v-click-outside";
@@ -40,7 +40,8 @@ import ClickOutside from "v-click-outside";
   },
 })
 export default class ContextMenu extends Components.ContextMenu {
-  onClickOutside(event: MouseEvent) {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  onClickOutside(e: MouseEvent) {
     if (this.value) {
       this.$emit("input", false);
     }
@@ -54,6 +55,7 @@ export default class ContextMenu extends Components.ContextMenu {
     isActive: true,
   };
 
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   onContextOutside(e: MouseEvent) {
     if (this.value) {
       this.$emit("input", false);

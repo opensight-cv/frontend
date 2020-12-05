@@ -109,7 +109,6 @@ import { Component } from "vue-property-decorator";
 
 import { Components } from "@baklavajs/plugin-renderer-vue";
 
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { IViewNode } from "@baklavajs/plugin-renderer-vue/dist/baklavajs-plugin-renderer-vue/types";
 
 @Component
@@ -172,8 +171,6 @@ export default class NodeViewOpsi extends Components.Node {
     // Set the node options based on the original node
     for (const option of Object.entries(nodeSave.options)) {
       const [name, value] = option[1];
-
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       node.setOptionValue(name, value);
     }
 

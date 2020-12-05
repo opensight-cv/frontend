@@ -27,11 +27,9 @@ export default Vue.extend({
     };
   },
   async created() {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
     this.viewPlugin.components.node = NodeOpsi as any;
     this.viewPlugin.components.nodeInterface = NodeInterfaceOpsi as any;
     this.viewPlugin.components.contextMenu = ContextMenuOpsi as any;
-    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     this.editor.use(this.viewPlugin);
     this.editor.use(this.interfacePlugin);
@@ -57,8 +55,6 @@ export default Vue.extend({
     });
 
     const nodetree = await getNodetree();
-    // eslint-disable-next-line no-console
-    console.log(nodetree);
     loadNodeTree(this.editor, this.viewPlugin, nodetree);
 
     this.editor.nodes.forEach((node) => {
@@ -77,16 +73,7 @@ export default Vue.extend({
   },
   methods: {
     async save() {
-      const updatedNodetree = saveNodetree(this.editor, this.viewPlugin);
-      // eslint-disable-next-line no-console
-      console.log(updatedNodetree);
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(updatedNodetree));
-
-      // eslint-disable-next-line no-console
-      console.log(await postNodetree(updatedNodetree));
-      // eslint-disable-next-line no-console
-      console.log(await getNodetree());
+      return postNodetree(saveNodetree(this.editor, this.viewPlugin));
     },
   },
 });

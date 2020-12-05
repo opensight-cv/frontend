@@ -1,7 +1,6 @@
 import { Connection, Editor, NodeInterface, NodeOption, Node } from "@baklavajs/core";
 import { Input, Link, Nodetree } from "@/api/nodeSchema";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { IViewNode } from "@baklavajs/plugin-options-vue/dist/baklavajs-plugin-renderer-vue/types";
 
 function linkFromNodeInterface(intf: NodeInterface): Link {
@@ -80,9 +79,7 @@ export function saveNodetree(editor: Editor, view: ViewPlugin): Nodetree {
 }
 
 export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetree) {
-  // eslint-disable-next-line no-param-reassign
   view.panning = nodetree.extras.panning ?? view.panning;
-  // eslint-disable-next-line no-param-reassign
   view.scaling = nodetree.extras.scaling ?? view.scaling;
 
   for (let i = editor.connections.length - 1; i >= 0; i--) {
@@ -111,13 +108,11 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
     nodeMap.set(node.id, node);
 
     for (const [name, value] of Object.entries(n.settings)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       node.options.get(name)!.value = value;
     }
 
     for (const [name, value] of Object.entries(n.inputs)) {
       if (value.value) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         node.interfaces.get(`in-${name}`)!.value = value.value;
       } else if (value.link) {
         const arr = linkMap.get(node) ?? [];
@@ -137,7 +132,6 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
   for (const [node, linkArr] of linkMap) {
     for (const { fromName, fromId, toName } of linkArr) {
       const toInterface = node.getInterface(toName);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const fromInterface = nodeMap.get(fromId)!.getInterface(fromName);
 
       editor.addConnection(fromInterface, toInterface);

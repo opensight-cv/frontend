@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  Eslint has problems with importing ts modules for some reason &
  the setting that's supposed to fix it doesn't work:

@@ -15,6 +15,7 @@ export default Vue.extend();
 <style scoped>
 .__sidebar {
   background-color: #141414;
+  width: 10vh;
   padding-top: 2%;
   display: flex;
   flex-direction: column;

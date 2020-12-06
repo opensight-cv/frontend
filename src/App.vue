@@ -2,7 +2,7 @@
   <div class="mainApp">
     <Sidebar style="width: 2.5%;" />
     <transition name="fade" mode="out-in">
-      <router-view style="width: 95%;"></router-view>
+      <router-view style="width: 97.5%;"></router-view>
     </transition>
     <snackbar />
   </div>

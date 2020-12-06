@@ -12,10 +12,9 @@ import Vue from "vue";
 export default Vue.extend();
 </script>
 
-<style scoped>
+<style>
 .__sidebar {
   background-color: #141414;
-  width: 10vh;
   padding-top: 2%;
   display: flex;
   flex-direction: column;

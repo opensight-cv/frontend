@@ -166,13 +166,14 @@ export default class NodeViewOpsi extends Components.Node {
 
     // Add that node to the editor
     const node = new NodeType() as IViewNode;
-    this.plugin.editor.addNode(node);
 
     // Set the node options based on the original node
     for (const option of Object.entries(nodeSave.options)) {
       const [name, value] = option[1];
       node.setOptionValue(name, value);
     }
+
+    this.plugin.editor.addNode(node);
 
     node.position = {
       x: this.data.position.x + this.data.width,

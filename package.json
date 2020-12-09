@@ -5,6 +5,7 @@
   "repository": "github:opensight-cv/frontend",
   "scripts": {
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode development --watch",
     "lint": "prettier --write . \"!{src,dist}/{**,*}\" && vue-cli-service lint --fix",
     "profile": "vue-cli-service build --report",
     "serve": "vue-cli-service serve",
@@ -15,10 +16,10 @@
     "since 2019"
   ],
   "dependencies": {
-    "@baklavajs/core": "^1.5.4",
-    "@baklavajs/plugin-interface-types": "^1.5.2",
-    "@baklavajs/plugin-options-vue": "^1.5.2",
-    "@baklavajs/plugin-renderer-vue": "^1.5.5",
+    "@baklavajs/core": "1.8.2",
+    "@baklavajs/plugin-interface-types": "1.8.2",
+    "@baklavajs/plugin-options-vue": "1.8.2",
+    "@baklavajs/plugin-renderer-vue": "1.8.2",
     "@types/vue-color": "^2.4.2",
     "core-js": "^3.6.4",
     "ky": "^0.19.1",
@@ -26,8 +27,9 @@
     "portal-vue": "^2.1.7",
     "v-click-outside": "^3.0.1",
     "vue": "^2.6.11",
-    "vue-color": "git+https://git@github.com/opensight-cv/vue-color.git#hack",
-    "vue-property-decorator": "^8.4.2"
+    "vue-color": "^2.7.1",
+    "vue-property-decorator": "^8.4.2",
+    "vue-router": "^3.3.4"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.29.0",

@@ -13,9 +13,9 @@ import ContextMenuOpsi from "@/components/node-editor/ContextMenuOpsi.vue";
 import Vue from "vue";
 import OptionPlugin from "@/components/baklava-options-plugin/optionPlugin";
 
-import nodeCtorFromFunction from "@/components/node-editor/nodeFromSchema";
+import nodeCtorFromFunction from "@/api/nodeFromSchema";
 import { getNodetree, getSchema, postNodetree, throttle } from "@/api/api";
-import { loadNodeTree, saveNodetree } from "@/components/node-editor/nodeTreeSerialize";
+import { loadNodeTree, saveNodetree } from "@/api/nodeTreeSerialize";
 import { InterfaceTypePlugin } from "@/components/node-editor/nodeInterfacePlugin";
 
 export default Vue.extend({
@@ -73,7 +73,7 @@ export default Vue.extend({
   },
   methods: {
     async save() {
-      return postNodetree(saveNodetree(this.editor, this.viewPlugin));
+      return postNodetree(saveNodetree(this.editor, this.viewPlugin)).catch((e) => console.log(e));
     },
   },
 });

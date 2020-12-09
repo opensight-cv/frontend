@@ -94,7 +94,7 @@ export default class RangeNumberOption extends BaseNumericRangeOption {
 
   // Gets the offset of the bar from the left (as a percentage)
   get offset() {
-    return Math.min(100, Math.max(0, (this.vLower * 100) / (this.max - this.min)));
+    return Math.min(100, Math.max(0, ((this.vLower - this.min) * 100) / (this.max - this.min)));
   }
 
   // Triggers when mouse down on slider
@@ -108,8 +108,9 @@ export default class RangeNumberOption extends BaseNumericRangeOption {
     );
 
     // Drag event targets the closer bound
-    const distanceFromLower = Math.abs(v - this.vLower);
-    const distanceFromUpper = Math.abs(v - this.valueUpper);
+    const distanceFromLower = v - this.vLower;
+    const distanceFromUpper = this.valueUpper - v;
+
     this.editingUpperBound = distanceFromUpper < distanceFromLower;
 
     this.isMouseDown = true;

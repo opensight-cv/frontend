@@ -1,6 +1,6 @@
 import "normalize.css/normalize.css";
 
-import { BaklavaVuePlugin } from "@/plugins/baklavaOpsiVuePlugin";
+import { BaklavaVuePlugin } from "@/components/baklavaOpsiVuePlugin";
 import Vue from "vue";
 
 import "@baklavajs/plugin-renderer-vue/dist/styles.css";

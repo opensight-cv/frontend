@@ -57,7 +57,8 @@ export default class DragNumberOption extends NumberOption {
   }
 
   mounted() {
-    if (this.option.default) this.displayValue = this.option.default;
+    if (this.value) this.displayValue = this.value;
+    else if (this.option.default) this.displayValue = this.option.default;
   }
 
   startDrag() {

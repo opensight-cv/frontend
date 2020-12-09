@@ -13,6 +13,8 @@
     @keyup="keyUp"
     @contextmenu.self.prevent="openContextMenu"
   >
+    <div class="background" :style="backgroundStyle"></div>
+
     <svg class="connections-container">
       <g v-for="connection in connections" :key="connection.id">
         <slot name="connections" :connection="connection">
@@ -68,14 +70,14 @@ export default class EditorView extends Editor {
       .map((c) => {
         const nodes = Array.from(this.plugin.editor.nodeCategories.get(c)!).map((n) => ({
           value: `addNode:${n}`,
-          label: this.plugin.nodeTypeAliases[n] || n,
+          label: n.substring(n.lastIndexOf("/") + 1),
         }));
         return { label: c, submenu: nodes };
       });
 
     const defaultNodes = this.plugin.editor.nodeCategories.get("default")!.map((n) => ({
       value: `addNode:${n}`,
-      label: this.plugin.nodeTypeAliases[n] || n,
+      label: n.substring(n.lastIndexOf("/") + 1),
     }));
 
     const addNodeSubmenu: IMenuItem[] = [...categories];

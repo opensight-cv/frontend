@@ -82,20 +82,20 @@ export class InterfaceTypePlugin implements IPlugin {
 
   public getConversion(from: string, to: string) {
     if (
-      (from.toLowerCase() === "any" && to.toLowerCase() === "any") ||
+      (from.toLowerCase() === "any" || to.toLowerCase() === "any") ||
       (from.toLowerCase() === "matbw" && to.toLowerCase() === "mat")
     ) {
       return { transformationFunction: (value: any) => value };
     }
     return (
-      this.types.has(from) && this.types.get(from)!.conversions.find((c) => c.targetType === to)
+      this.types.has(from) && (this.types.get(from)!.conversions.find((c) => c.targetType === to) ?? false)
     );
   }
 
   public canConvert(from: string, to: string): boolean {
     return (
       from === to ||
-      this.getConversion(from, to) !== undefined
+      this.getConversion(from, to) !== false
     );
   }
 

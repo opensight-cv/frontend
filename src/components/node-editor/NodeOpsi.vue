@@ -69,7 +69,7 @@
 
       <!-- Options -->
       <div class="__options" @mousedown.self.stop="startDrag">
-        <template v-for="[name, option] in options">
+        <template v-for="[name, option] in data.options">
           <component
             :is="plugin.components.nodeOption"
             :key="name"
@@ -166,13 +166,14 @@ export default class NodeViewOpsi extends Components.Node {
 
     // Add that node to the editor
     const node = new NodeType() as IViewNode;
-    this.plugin.editor.addNode(node);
 
     // Set the node options based on the original node
     for (const option of Object.entries(nodeSave.options)) {
       const [name, value] = option[1];
       node.setOptionValue(name, value);
     }
+
+    this.plugin.editor.addNode(node);
 
     node.position = {
       x: this.data.position.x + this.data.width,

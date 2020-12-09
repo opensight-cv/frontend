@@ -13,6 +13,8 @@
     @keyup="keyUp"
     @contextmenu.self.prevent="openContextMenu"
   >
+    <div class="background" :style="backgroundStyle"></div>
+
     <svg class="connections-container">
       <g v-for="connection in connections" :key="connection.id">
         <slot name="connections" :connection="connection">

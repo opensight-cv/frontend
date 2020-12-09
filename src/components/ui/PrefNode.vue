@@ -1,4 +1,5 @@
-id <template>
+id
+<template>
   <div class="pref-node">
     <div class="pref-node-title">
       <span style="width: 80%;">{{ title }}</span>

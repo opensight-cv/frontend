@@ -113,7 +113,6 @@ export default class RangeNumberOption extends BaseNumericRangeOption {
 
     this.editingUpperBound = distanceFromUpper < distanceFromLower;
 
-
     this.isMouseDown = true;
   }
 

@@ -107,7 +107,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
     nodeMap.set(node.id, node);
 
     for (const [name, value] of Object.entries(n.settings)) {
-      node.setOptionValue(name, value)
+      node.setOptionValue(name, value);
     }
 
     for (const [name, value] of Object.entries(n.inputs)) {
@@ -127,8 +127,7 @@ export function loadNodeTree(editor: Editor, view: ViewPlugin, nodetree: Nodetre
     editor.addNode(node);
 
     if (n.extras.position != null) {
-      ((node as unknown) as IViewNode).position =
-        n.extras.position;
+      ((node as unknown) as IViewNode).position = n.extras.position;
     }
   }
 

@@ -16,10 +16,10 @@
     "since 2019"
   ],
   "dependencies": {
-    "@baklavajs/core": "^1.5.4",
-    "@baklavajs/plugin-interface-types": "^1.5.2",
-    "@baklavajs/plugin-options-vue": "^1.5.2",
-    "@baklavajs/plugin-renderer-vue": "^1.5.5",
+    "@baklavajs/core": "1.8.2",
+    "@baklavajs/plugin-interface-types": "1.8.2",
+    "@baklavajs/plugin-options-vue": "1.8.2",
+    "@baklavajs/plugin-renderer-vue": "1.8.2",
     "@types/vue-color": "^2.4.2",
     "core-js": "^3.6.4",
     "ky": "^0.19.1",

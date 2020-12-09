@@ -73,7 +73,7 @@ export default Vue.extend({
   },
   methods: {
     async save() {
-      return postNodetree(saveNodetree(this.editor, this.viewPlugin)).catch(e => console.log(e));
+      return postNodetree(saveNodetree(this.editor, this.viewPlugin)).catch((e) => console.log(e));
     },
   },
 });
